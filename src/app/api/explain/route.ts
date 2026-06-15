@@ -1,17 +1,24 @@
 import { GoogleGenerativeAI } from '@google/generative-ai';
 
-// Initialize the API using the same keys approach as generate route, or just first available
 const apiKey = process.env.GEMINI_API_KEY_1 || process.env.GEMINI_API_KEY_2 || process.env.GEMINI_API_KEY_3 || "";
-const genAI = new GoogleGenerativeAI(apiKey);
 
 export async function POST(req: Request) {
   try {
+    if (!apiKey) {
+      return new Response(JSON.stringify({ error: 'API key not configured' }), { status: 500 });
+    }
+
     const { prompt } = await req.json();
 
-    if (!prompt) {
+    if (!prompt || typeof prompt !== 'string') {
       return new Response('Missing prompt', { status: 400 });
     }
 
+    if (prompt.length > 1000) {
+      return new Response('Prompt too long', { status: 400 });
+    }
+
+    const genAI = new GoogleGenerativeAI(apiKey);
     const model = genAI.getGenerativeModel({
       model: 'gemini-2.0-flash',
       systemInstruction: 'You are a senior engineer mentoring a junior. Explain the given technical concept in exactly 3 concise, easy-to-understand sentences. Do not use markdown.',

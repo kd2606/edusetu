@@ -33,7 +33,11 @@ export default function LoginPage() {
     e.preventDefault();
     setIsLoading(true);
     setError(null);
-    const formData = new FormData(e.currentTarget);
+    
+    const formElement = (e.currentTarget as unknown as HTMLElement).closest('form');
+    if (!formElement) return;
+    
+    const formData = new FormData(formElement);
     const result = await action(formData);
     if (result?.error) {
       setError(result.error);
@@ -104,7 +108,7 @@ export default function LoginPage() {
               <span className="w-full border-t border-white/10" />
             </div>
             <div className="relative flex justify-center text-xs uppercase tracking-widest">
-              <span className="bg-[#0a0a0a] px-3 text-zinc-500">Or continue with</span>
+              <span className="bg-background px-3 text-zinc-500">Or continue with</span>
             </div>
           </div>
 

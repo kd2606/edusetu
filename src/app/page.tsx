@@ -1,13 +1,13 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { GeneratorForm } from '@/components/generator-form';
 import { RoadmapCanvas } from '@/components/roadmap-canvas';
 import { SavedRoadmaps } from '@/components/saved-roadmaps';
 import type { RoadmapData } from '@/components/roadmap-canvas';
 import { motion } from 'framer-motion';
 import { Sheet, SheetContent, SheetHeader, SheetTitle } from '@/components/ui/sheet';
-import { useEffect } from 'react';
+import { ErrorBoundary } from '@/components/error-boundary';
 
 export default function Home() {
   const [roadmapData, setRoadmapData] = useState<RoadmapData | null>(null);
@@ -47,7 +47,7 @@ export default function Home() {
   return (
     <main className="w-full h-screen relative flex">
       <Sheet open={isHistoryOpen} onOpenChange={setIsHistoryOpen}>
-        <SheetContent side="right" className="w-[400px] sm:w-[540px] bg-[#0a0a0a] border-white/[0.1] p-0">
+        <SheetContent side="right" className="w-full sm:w-[400px] md:w-[540px] bg-background border-white/[0.1] p-0">
           <SheetHeader className="p-6 pb-2 border-b border-white/[0.1]">
             <SheetTitle className="text-white">My Roadmaps</SheetTitle>
           </SheetHeader>
@@ -84,7 +84,9 @@ export default function Home() {
             >
               Start New Roadmap
             </motion.button>
-            <RoadmapCanvas data={roadmapData} />
+            <ErrorBoundary>
+              <RoadmapCanvas data={roadmapData} />
+            </ErrorBoundary>
           </div>
         )}
       </section>

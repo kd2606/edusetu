@@ -43,7 +43,7 @@ export function GeneratorForm({ onGenerate, isLoading }: GeneratorFormProps) {
         <CardDescription className="text-white/60 text-sm leading-relaxed">Tell us your goals, and we&apos;ll map the path.</CardDescription>
       </CardHeader>
       <CardContent className="space-y-8 mt-6 p-0">
-        <AnimatePresence mode="wait">
+        <AnimatePresence mode="sync">
           
           {step >= 1 && (
             <motion.div

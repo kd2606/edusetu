@@ -39,13 +39,12 @@ type RoadmapCanvasProps = {
   data: RoadmapData;
 };
 
-const dagreGraph = new dagre.graphlib.Graph();
-dagreGraph.setDefaultEdgeLabel(() => ({}));
-
 const nodeWidth = 280;
 const nodeHeight = 160;
 
 function getLayoutedElements(nodes: Node[], edges: Edge[], direction = 'TB') {
+  const dagreGraph = new dagre.graphlib.Graph();
+  dagreGraph.setDefaultEdgeLabel(() => ({}));
   dagreGraph.setGraph({ rankdir: direction });
 
   nodes.forEach((node) => {
@@ -201,7 +200,7 @@ export function RoadmapCanvas({ data }: RoadmapCanvasProps) {
       toPng(viewport, { backgroundColor: '#09090b' }) // match dark background
         .then((dataUrl) => {
           const a = document.createElement('a');
-          a.setAttribute('download', `${data.title.replace(/\\s+/g, '_')}_roadmap.png`);
+          a.setAttribute('download', `${data.title.replace(/\s+/g, '_')}_roadmap.png`);
           a.setAttribute('href', dataUrl);
           a.click();
         })

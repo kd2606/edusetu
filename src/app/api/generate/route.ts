@@ -3,7 +3,19 @@ import { createClient } from '@/utils/supabase/server';
 
 export async function POST(req: Request) {
   try {
-    const { domain, currentLevel, ultimateGoal, timeframe } = await req.json();
+    const body = await req.json();
+    const { domain, currentLevel, ultimateGoal, timeframe } = body;
+
+    // Input validation
+    const fields = { domain, currentLevel, ultimateGoal, timeframe };
+    for (const [key, value] of Object.entries(fields)) {
+      if (!value || typeof value !== 'string') {
+        return NextResponse.json({ error: `Missing or invalid field: ${key}` }, { status: 400 });
+      }
+      if ((value as string).length > 500) {
+        return NextResponse.json({ error: `Field ${key} exceeds maximum length` }, { status: 400 });
+      }
+    }
 
     const prompt = `
 You are an expert learning pathway generator. Generate a structured learning roadmap.
@@ -124,8 +136,7 @@ Timeframe: ${timeframe}
     console.error("Error Message:", (error as Error)?.message);
     console.error("========================");
     return NextResponse.json({
-      error: "Failed to generate roadmap",
-      details: (error as Error)?.message || String(error)
+      error: "Failed to generate roadmap. Please try again."
     }, { status: 500 });
   }
 }

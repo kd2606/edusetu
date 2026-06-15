@@ -245,7 +245,7 @@ export function NodeDetailsSheet({ isOpen, onOpenChange, node, onVideosFetched }
 
             {!loading && !error && videos.length > 0 && (
               <div className="grid gap-4">
-                {videos.map((v) => (
+              {videos.filter((v) => /^[a-zA-Z0-9_-]{11}$/.test(v.videoId)).map((v) => (
                   <motion.div
                     key={v.videoId}
                     initial={{ opacity: 0, y: 8 }}

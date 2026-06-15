@@ -44,11 +44,47 @@ export function ProfileMenu({ email }: ProfileMenuProps) {
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
 
+  // Keyboard accessibility for the dropdown
+  useEffect(() => {
+    if (!isDropdownOpen) return;
+    
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') {
+        setIsDropdownOpen(false);
+        return;
+      }
+
+      const menuItems = dropdownRef.current?.querySelectorAll<HTMLButtonElement>(
+        '[role="menuitem"]'
+      );
+      if (!menuItems || menuItems.length === 0) return;
+
+      const currentIndex = Array.from(menuItems).findIndex(
+        (item) => item === document.activeElement
+      );
+
+      if (e.key === 'ArrowDown') {
+        e.preventDefault();
+        const nextIndex = currentIndex < menuItems.length - 1 ? currentIndex + 1 : 0;
+        menuItems[nextIndex].focus();
+      } else if (e.key === 'ArrowUp') {
+        e.preventDefault();
+        const prevIndex = currentIndex > 0 ? currentIndex - 1 : menuItems.length - 1;
+        menuItems[prevIndex].focus();
+      }
+    };
+
+    document.addEventListener('keydown', handleKeyDown);
+    return () => document.removeEventListener('keydown', handleKeyDown);
+  }, [isDropdownOpen]);
+
   return (
     <>
       <div className="relative" ref={dropdownRef}>
         <button 
           onClick={() => setIsDropdownOpen(!isDropdownOpen)}
+          aria-haspopup="true"
+          aria-expanded={isDropdownOpen}
           className="relative h-10 w-10 rounded-full bg-white/[0.04] border border-white/[0.08] hover:bg-white/[0.1] transition-all flex items-center justify-center outline-none"
         >
           <Avatar className="h-9 w-9">
@@ -57,18 +93,18 @@ export function ProfileMenu({ email }: ProfileMenuProps) {
         </button>
 
         {isDropdownOpen && (
-          <div className="absolute right-0 mt-2 w-56 rounded-md shadow-lg bg-[#0a0a0a] ring-1 ring-white/10 z-50 text-white/90 overflow-hidden animate-in fade-in zoom-in-95 duration-100">
+          <div role="menu" className="absolute right-0 mt-2 w-56 rounded-md shadow-lg bg-background ring-1 ring-white/10 z-50 text-white/90 overflow-hidden animate-in fade-in zoom-in-95 duration-100">
             <div className="px-3 py-2 border-b border-white/10">
               <p className="text-sm font-medium text-white">My Account</p>
               <p className="text-xs text-muted-foreground truncate mt-1">{email}</p>
             </div>
             
             <div className="py-1">
-              <button onClick={handleOpenHistory} className="w-full text-left px-3 py-2 text-sm hover:bg-white/[0.05] flex items-center transition-colors">
+              <button role="menuitem" onClick={handleOpenHistory} className="w-full text-left px-3 py-2 text-sm hover:bg-white/[0.05] focus:bg-white/[0.05] focus:outline-none flex items-center transition-colors">
                 <BookMarked className="mr-2 h-4 w-4" />
                 <span>My Roadmaps</span>
               </button>
-              <button onClick={handleOpenAbout} className="w-full text-left px-3 py-2 text-sm hover:bg-white/[0.05] flex items-center transition-colors">
+              <button role="menuitem" onClick={handleOpenAbout} className="w-full text-left px-3 py-2 text-sm hover:bg-white/[0.05] focus:bg-white/[0.05] focus:outline-none flex items-center transition-colors">
                 <Info className="mr-2 h-4 w-4" />
                 <span>About EduSetu</span>
               </button>
@@ -76,9 +112,10 @@ export function ProfileMenu({ email }: ProfileMenuProps) {
             
             <div className="border-t border-white/10 py-1">
               <button 
+                role="menuitem"
                 onClick={handleSignOut} 
                 disabled={isPending}
-                className="w-full text-left px-3 py-2 text-sm text-red-400 hover:bg-red-400/10 focus:bg-red-400/10 flex items-center transition-colors disabled:opacity-50"
+                className="w-full text-left px-3 py-2 text-sm text-red-400 hover:bg-red-400/10 focus:bg-red-400/10 focus:outline-none flex items-center transition-colors disabled:opacity-50"
               >
                 <LogOut className="mr-2 h-4 w-4" />
                 <span>{isPending ? 'Signing out...' : 'Sign Out'}</span>
@@ -89,7 +126,7 @@ export function ProfileMenu({ email }: ProfileMenuProps) {
       </div>
 
       <Dialog open={isAboutOpen} onOpenChange={setIsAboutOpen}>
-        <DialogContent className="bg-[#0a0a0a] border-white/[0.1] text-white/90 sm:max-w-md">
+        <DialogContent className="bg-background border-white/[0.1] text-white/90 sm:max-w-md">
           <DialogHeader>
             <DialogTitle className="text-xl">About EduSetu</DialogTitle>
             <DialogDescription className="text-zinc-400">
