@@ -66,15 +66,15 @@ export function ProfileMenu({ email }: ProfileMenuProps) {
             </div>
             <div className="space-y-1">
               <h4 className="text-sm font-medium text-white">Creator</h4>
-              <p className="text-sm text-zinc-400">Built with ❤️ to empower learners globally.</p>
+              <p className="text-sm text-zinc-400">A personal mission to make learning less overwhelming, built by a student who felt it firsthand.</p>
             </div>
             <div className="space-y-1">
               <h4 className="text-sm font-medium text-white">Connect</h4>
               <p className="text-sm text-zinc-400">
-                Check out my portfolio: <a href="#" target="_blank" className="text-blue-400 hover:underline">Insert Portfolio Link Here</a>
+                Portfolio &rarr; <a href="https://krrish-portfolio-six.vercel.app/" target="_blank" className="text-blue-400 hover:underline">https://krrish-portfolio-six.vercel.app/</a>
               </p>
               <p className="text-sm text-zinc-400">
-                Support: <a href="mailto:support@edusetu.com" className="text-blue-400 hover:underline">support@edusetu.com</a>
+                Email &rarr; <a href="mailto:dewangankrrish50@gmail.com" className="text-blue-400 hover:underline">dewangankrrish50@gmail.com</a>
               </p>
             </div>
           </div>
