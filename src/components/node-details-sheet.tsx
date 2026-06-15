@@ -252,14 +252,14 @@ export function NodeDetailsSheet({ isOpen, onOpenChange, node, onVideosFetched }
                     animate={{ opacity: 1, y: 0 }}
                     className="overflow-hidden bg-white/[0.02] border border-white/[0.05] hover:bg-white/[0.04] transition-all rounded-2xl shadow-sm"
                   >
-                    <div className="aspect-video w-full">
+                    <div className="relative w-full aspect-video rounded-t-2xl overflow-hidden bg-black/20">
                       <iframe
-                        src={`https://www.youtube-nocookie.com/embed/${v.videoId}`}
+                        src={`https://www.youtube-nocookie.com/embed/${v.videoId}?rel=0`}
                         title={v.title}
                         loading="lazy"
                         allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                         allowFullScreen
-                        className="w-full h-full"
+                        className="absolute inset-0 w-full h-full border-0"
                       />
                     </div>
                     <div className="p-3">
