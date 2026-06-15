@@ -6,12 +6,20 @@ import { RoadmapCanvas } from '@/components/roadmap-canvas';
 import { SavedRoadmaps } from '@/components/saved-roadmaps';
 import type { RoadmapData } from '@/components/roadmap-canvas';
 import { motion } from 'framer-motion';
+import { Sheet, SheetContent, SheetHeader, SheetTitle } from '@/components/ui/sheet';
+import { useEffect } from 'react';
 
 export default function Home() {
   const [roadmapData, setRoadmapData] = useState<RoadmapData | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const [hasHistory, setHasHistory] = useState(false);
+  const [isHistoryOpen, setIsHistoryOpen] = useState(false);
+
+  useEffect(() => {
+    const handleOpenHistory = () => setIsHistoryOpen(true);
+    document.addEventListener('open-history', handleOpenHistory);
+    return () => document.removeEventListener('open-history', handleOpenHistory);
+  }, []);
 
   const handleGenerate = async (formData: Record<string, unknown>) => {
     setIsLoading(true);
@@ -38,9 +46,19 @@ export default function Home() {
 
   return (
     <main className="w-full h-screen relative flex">
-      <aside className={`hidden md:block border-white/[0.1] bg-white/[0.03] backdrop-blur-2xl flex-shrink-0 pt-16 transition-all duration-300 ${hasHistory ? 'w-80 border-r' : 'w-0 overflow-hidden border-none'}`}>
-        <SavedRoadmaps onSelectRoadmap={setRoadmapData} onRoadmapsLoaded={(count) => setHasHistory(count > 0)} />
-      </aside>
+      <Sheet open={isHistoryOpen} onOpenChange={setIsHistoryOpen}>
+        <SheetContent side="right" className="w-[400px] sm:w-[540px] bg-[#0a0a0a] border-white/[0.1] p-0">
+          <SheetHeader className="p-6 pb-2 border-b border-white/[0.1]">
+            <SheetTitle className="text-white">My Roadmaps</SheetTitle>
+          </SheetHeader>
+          <div className="h-[calc(100vh-80px)] overflow-y-auto">
+            <SavedRoadmaps onSelectRoadmap={(data) => {
+              setRoadmapData(data);
+              setIsHistoryOpen(false);
+            }} />
+          </div>
+        </SheetContent>
+      </Sheet>
 
       <section className="flex-1 h-screen relative flex items-center justify-center overflow-hidden">
         {!roadmapData ? (
