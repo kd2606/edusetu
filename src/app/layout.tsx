@@ -1,6 +1,12 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
+import { Inter } from "next/font/google";
+import { cn } from "@/lib/utils";
+import { AuthButton } from "@/components/auth-button";
+import { AmbientBackground } from "@/components/ambient-background";
+
+const inter = Inter({ subsets: ['latin'], display: 'swap', variable: '--font-inter' });
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -24,10 +30,14 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="en" className={cn("dark font-sans", inter.variable)}>
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
+        <AmbientBackground />
+        <div className="fixed top-4 right-4 z-50">
+          <AuthButton />
+        </div>
         {children}
       </body>
     </html>

@@ -1,101 +1,74 @@
-import Image from "next/image";
+'use client';
+
+import { useState } from 'react';
+import { GeneratorForm } from '@/components/generator-form';
+import { RoadmapCanvas } from '@/components/roadmap-canvas';
+import { SavedRoadmaps } from '@/components/saved-roadmaps';
+import { motion } from 'framer-motion';
 
 export default function Home() {
-  return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-8 row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="https://nextjs.org/icons/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="list-inside list-decimal text-sm text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-semibold">
-              src/app/page.tsx
-            </code>
-            .
-          </li>
-          <li>Save and see your changes instantly.</li>
-        </ol>
+  const [roadmapData, setRoadmapData] = useState<any>(null);
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const [hasHistory, setHasHistory] = useState(false);
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="https://nextjs.org/icons/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:min-w-44"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
-        </div>
-      </main>
-      <footer className="row-start-3 flex gap-6 flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="https://nextjs.org/icons/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="https://nextjs.org/icons/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="https://nextjs.org/icons/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
-    </div>
+  const handleGenerate = async (formData: any) => {
+    setIsLoading(true);
+    setError(null);
+    try {
+      const res = await fetch('/api/generate', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(formData),
+      });
+      
+      if (!res.ok) {
+        throw new Error('Failed to generate roadmap');
+      }
+      
+      const data = await res.json();
+      setRoadmapData(data);
+    } catch (err: any) {
+      setError(err.message || "Something went wrong");
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  return (
+    <main className="w-full h-screen relative flex">
+      <aside className={`hidden md:block border-white/[0.1] bg-white/[0.03] backdrop-blur-2xl flex-shrink-0 pt-16 transition-all duration-300 ${hasHistory ? 'w-80 border-r' : 'w-0 overflow-hidden border-none'}`}>
+        <SavedRoadmaps onSelectRoadmap={setRoadmapData} onRoadmapsLoaded={(count) => setHasHistory(count > 0)} />
+      </aside>
+
+      <section className="flex-1 h-screen relative flex items-center justify-center overflow-hidden">
+        {!roadmapData ? (
+          <div className="w-full px-4 flex flex-col items-center min-h-screen overflow-y-auto">
+            <div className="text-center mt-20 mb-16">
+              <h1 className="text-4xl md:text-6xl font-bold tracking-tight mb-6">
+                <span className="text-white">EduSetu.</span> <span className="bg-gradient-to-r from-zinc-200 to-zinc-500 bg-clip-text text-transparent">Every goal deserves a clear path.</span>
+              </h1>
+              <p className="text-lg md:text-xl text-zinc-400 max-w-2xl mx-auto leading-relaxed">
+                Where do you want to learn next? Whether you're navigating a school syllabus, cracking a competitive exam, or mastering a new skill, we dynamically map the exact steps to get you there.
+              </p>
+            </div>
+            <GeneratorForm onGenerate={handleGenerate} isLoading={isLoading} />
+            {error && <p className="text-red-500 mt-4 text-center">{error}</p>}
+          </div>
+        ) : (
+          <div className="w-full h-full relative">
+            <motion.button 
+              whileTap={{ scale: 0.95 }}
+              whileHover={{ scale: 1.02 }}
+              onClick={() => setRoadmapData(null)}
+              className="absolute bottom-6 left-1/2 -translate-x-1/2 z-50 bg-white text-black px-6 py-2 rounded-lg shadow-sm font-medium hover:bg-white/90 transition-all duration-150 tracking-[-0.01em]"
+            >
+              Start New Roadmap
+            </motion.button>
+            <RoadmapCanvas data={roadmapData} />
+          </div>
+        )}
+      </section>
+    </main>
   );
 }
