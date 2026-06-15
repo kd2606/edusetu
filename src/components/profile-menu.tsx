@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useTransition } from 'react';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
 import { Avatar, AvatarFallback } from '@/components/ui/avatar';
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from '@/components/ui/dialog';
@@ -13,10 +13,17 @@ interface ProfileMenuProps {
 
 export function ProfileMenu({ email }: ProfileMenuProps) {
   const [isAboutOpen, setIsAboutOpen] = useState(false);
+  const [isPending, startTransition] = useTransition();
   const initials = email.substring(0, 2).toUpperCase();
 
   const handleOpenHistory = () => {
     document.dispatchEvent(new CustomEvent('open-history'));
+  };
+
+  const handleSignOut = () => {
+    startTransition(() => {
+      signout();
+    });
   };
 
   return (
@@ -44,9 +51,9 @@ export function ProfileMenu({ email }: ProfileMenuProps) {
             <span>About EduSetu</span>
           </DropdownMenuItem>
           <DropdownMenuSeparator className="bg-white/10" />
-          <DropdownMenuItem className="cursor-pointer text-red-400 hover:bg-red-400/10 focus:bg-red-400/10 focus:text-red-400" onClick={() => signout()}>
+          <DropdownMenuItem className="cursor-pointer text-red-400 hover:bg-red-400/10 focus:bg-red-400/10 focus:text-red-400" onClick={handleSignOut} disabled={isPending}>
             <LogOut className="mr-2 h-4 w-4" />
-            <span>Sign Out</span>
+            <span>{isPending ? 'Signing out...' : 'Sign Out'}</span>
           </DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>
