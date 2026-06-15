@@ -1,7 +1,6 @@
 'use client';
 
-import { useState, useTransition } from 'react';
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
+import { useState, useTransition, useRef, useEffect } from 'react';
 import { Avatar, AvatarFallback } from '@/components/ui/avatar';
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { BookMarked, Info, LogOut } from 'lucide-react';
@@ -12,12 +11,21 @@ interface ProfileMenuProps {
 }
 
 export function ProfileMenu({ email }: ProfileMenuProps) {
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [isAboutOpen, setIsAboutOpen] = useState(false);
   const [isPending, startTransition] = useTransition();
+  const dropdownRef = useRef<HTMLDivElement>(null);
+  
   const initials = email.substring(0, 2).toUpperCase();
 
   const handleOpenHistory = () => {
     document.dispatchEvent(new CustomEvent('open-history'));
+    setIsDropdownOpen(false);
+  };
+
+  const handleOpenAbout = () => {
+    setIsAboutOpen(true);
+    setIsDropdownOpen(false);
   };
 
   const handleSignOut = () => {
@@ -26,37 +34,59 @@ export function ProfileMenu({ email }: ProfileMenuProps) {
     });
   };
 
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+        setIsDropdownOpen(false);
+      }
+    };
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, []);
+
   return (
     <>
-      <DropdownMenu>
-        <DropdownMenuTrigger className="relative h-10 w-10 rounded-full bg-white/[0.04] border border-white/[0.08] hover:bg-white/[0.1] transition-all flex items-center justify-center cursor-pointer outline-none">
+      <div className="relative" ref={dropdownRef}>
+        <button 
+          onClick={() => setIsDropdownOpen(!isDropdownOpen)}
+          className="relative h-10 w-10 rounded-full bg-white/[0.04] border border-white/[0.08] hover:bg-white/[0.1] transition-all flex items-center justify-center outline-none"
+        >
           <Avatar className="h-9 w-9">
             <AvatarFallback className="bg-transparent text-white font-medium">{initials}</AvatarFallback>
           </Avatar>
-        </DropdownMenuTrigger>
-        <DropdownMenuContent className="w-56 bg-[#0a0a0a] border-white/[0.1] text-white/90" align="end">
-          <DropdownMenuLabel className="font-normal">
-            <div className="flex flex-col space-y-1 text-sm">
-              <p className="text-sm font-medium leading-none text-white">My Account</p>
-              <p className="text-xs leading-none text-muted-foreground truncate">{email}</p>
+        </button>
+
+        {isDropdownOpen && (
+          <div className="absolute right-0 mt-2 w-56 rounded-md shadow-lg bg-[#0a0a0a] ring-1 ring-white/10 z-50 text-white/90 overflow-hidden animate-in fade-in zoom-in-95 duration-100">
+            <div className="px-3 py-2 border-b border-white/10">
+              <p className="text-sm font-medium text-white">My Account</p>
+              <p className="text-xs text-muted-foreground truncate mt-1">{email}</p>
             </div>
-          </DropdownMenuLabel>
-          <DropdownMenuSeparator className="bg-white/10" />
-          <DropdownMenuItem className="cursor-pointer hover:bg-white/[0.05]" onClick={handleOpenHistory}>
-            <BookMarked className="mr-2 h-4 w-4" />
-            <span>My Roadmaps</span>
-          </DropdownMenuItem>
-          <DropdownMenuItem className="cursor-pointer hover:bg-white/[0.05]" onClick={() => setIsAboutOpen(true)}>
-            <Info className="mr-2 h-4 w-4" />
-            <span>About EduSetu</span>
-          </DropdownMenuItem>
-          <DropdownMenuSeparator className="bg-white/10" />
-          <DropdownMenuItem className="cursor-pointer text-red-400 hover:bg-red-400/10 focus:bg-red-400/10 focus:text-red-400" onClick={handleSignOut} disabled={isPending}>
-            <LogOut className="mr-2 h-4 w-4" />
-            <span>{isPending ? 'Signing out...' : 'Sign Out'}</span>
-          </DropdownMenuItem>
-        </DropdownMenuContent>
-      </DropdownMenu>
+            
+            <div className="py-1">
+              <button onClick={handleOpenHistory} className="w-full text-left px-3 py-2 text-sm hover:bg-white/[0.05] flex items-center transition-colors">
+                <BookMarked className="mr-2 h-4 w-4" />
+                <span>My Roadmaps</span>
+              </button>
+              <button onClick={handleOpenAbout} className="w-full text-left px-3 py-2 text-sm hover:bg-white/[0.05] flex items-center transition-colors">
+                <Info className="mr-2 h-4 w-4" />
+                <span>About EduSetu</span>
+              </button>
+            </div>
+            
+            <div className="border-t border-white/10 py-1">
+              <button 
+                onClick={handleSignOut} 
+                disabled={isPending}
+                className="w-full text-left px-3 py-2 text-sm text-red-400 hover:bg-red-400/10 focus:bg-red-400/10 flex items-center transition-colors disabled:opacity-50"
+              >
+                <LogOut className="mr-2 h-4 w-4" />
+                <span>{isPending ? 'Signing out...' : 'Sign Out'}</span>
+              </button>
+            </div>
+          </div>
+        )}
+      </div>
 
       <Dialog open={isAboutOpen} onOpenChange={setIsAboutOpen}>
         <DialogContent className="bg-[#0a0a0a] border-white/[0.1] text-white/90 sm:max-w-md">
