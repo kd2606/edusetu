@@ -60,9 +60,9 @@ export default function Home() {
         </SheetContent>
       </Sheet>
 
-      <section className="flex-1 h-screen relative flex items-center justify-center overflow-hidden">
+      <section className="flex-1 h-screen relative overflow-y-auto overflow-x-hidden">
         {!roadmapData ? (
-          <div className="w-full px-4 flex flex-col items-center min-h-screen overflow-y-auto">
+          <div className="w-full px-4 flex flex-col items-center justify-center min-h-full py-12">
             <div className="text-center mt-20 mb-16">
               <h1 className="text-4xl md:text-6xl font-bold tracking-tight mb-6">
                 <span className="text-white">EduSetu.</span> <span className="bg-gradient-to-r from-zinc-200 to-zinc-500 bg-clip-text text-transparent">Every goal deserves a clear path.</span>
