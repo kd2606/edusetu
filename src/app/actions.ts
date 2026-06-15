@@ -2,7 +2,7 @@
 
 import { createClient } from '@/utils/supabase/server';
 
-export async function updateRoadmapNodes(roadmapId: string, nodes: any[]) {
+export async function updateRoadmapNodes(roadmapId: string, nodes: Record<string, unknown>[]) {
   try {
     const supabase = await createClient();
     const { data: { user } } = await supabase.auth.getUser();

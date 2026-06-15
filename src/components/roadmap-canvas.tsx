@@ -15,7 +15,7 @@ import {
 } from '@xyflow/react';
 import '@xyflow/react/dist/style.css';
 import dagre from 'dagre';
-import { RoadmapNode, RoadmapNodeType, RoadmapNodeData, CachedYouTubeVideo } from './RoadmapNode';
+import { RoadmapNode, RoadmapNodeData, CachedYouTubeVideo } from './RoadmapNode';
 import { NodeDetailsSheet } from './node-details-sheet';
 import { updateRoadmapNodes } from '@/app/actions';
 import { toPng } from 'html-to-image';
@@ -25,14 +25,18 @@ const nodeTypes = {
   roadmapNode: RoadmapNode,
 };
 
+export type RoadmapData = {
+  id?: string;
+  title: string;
+  domain?: string;
+  created_at?: string;
+  estimated_duration: string;
+  nodes: Array<RoadmapNodeData & { id: string }>;
+  edges: Array<{ source: string; target: string }>;
+};
+
 type RoadmapCanvasProps = {
-  data: {
-    id?: string;
-    title: string;
-    estimated_duration: string;
-    nodes: Array<RoadmapNodeData & { id: string }>;
-    edges: Array<{ source: string; target: string }>;
-  };
+  data: RoadmapData;
 };
 
 const dagreGraph = new dagre.graphlib.Graph();
@@ -121,7 +125,7 @@ export function RoadmapCanvas({ data }: RoadmapCanvasProps) {
   );
 
   const [nodes, setNodes, onNodesChange] = useNodesState(layoutedNodes);
-  const [edges, setEdges, onEdgesChange] = useEdgesState(layoutedEdges);
+  const [edges, , onEdgesChange] = useEdgesState(layoutedEdges);
 
   const [selectedNode, setSelectedNode] = useState<RoadmapNodeData | null>(null);
   const [isSheetOpen, setIsSheetOpen] = useState(false);
@@ -143,7 +147,7 @@ export function RoadmapCanvas({ data }: RoadmapCanvasProps) {
         ...n.data,
         id: n.id,
       }));
-      rawNodes.forEach(rn => delete (rn as any).onToggleComplete);
+      rawNodes.forEach(rn => delete (rn as Record<string, unknown>).onToggleComplete);
       await updateRoadmapNodes(data.id, rawNodes);
     } catch (err) {
       console.error('Failed to sync node updates to database:', err);
@@ -173,6 +177,7 @@ export function RoadmapCanvas({ data }: RoadmapCanvasProps) {
 
       return newNodes;
     });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [data.id, setNodes]);
 
   // Update initial nodes if we want them to use the local setter, but it's easier to just patch them
@@ -226,7 +231,7 @@ export function RoadmapCanvas({ data }: RoadmapCanvasProps) {
         ...n.data,
         id: n.id,
       }));
-      rawNodes.forEach(rn => delete (rn as any).onToggleComplete);
+      rawNodes.forEach(rn => delete (rn as Record<string, unknown>).onToggleComplete);
       await updateRoadmapNodes(data.id, rawNodes);
     }
   }, [nodes, data.id, setNodes]);

@@ -1,5 +1,5 @@
 import { Handle, Position, NodeProps, Node } from '@xyflow/react';
-import { BookOpen, Target, Dumbbell, Rocket, CheckCircle2, Code, Video } from 'lucide-react';
+import { BookOpen, Target, Dumbbell, Rocket, CheckCircle2 } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { cn } from '@/lib/utils';
 import { Badge } from '@/components/ui/badge';

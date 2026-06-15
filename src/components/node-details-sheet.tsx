@@ -89,6 +89,7 @@ export function NodeDetailsSheet({ isOpen, onOpenChange, node, onVideosFetched }
       .finally(() => {
         setLoading(false);
       });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [node?.id]);
 
   const handleExplain = async () => {

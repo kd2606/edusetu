@@ -40,7 +40,7 @@ export function GeneratorForm({ onGenerate, isLoading }: GeneratorFormProps) {
     <Card className="w-full max-w-2xl mx-auto p-8 sm:p-12 bg-white/[0.03] backdrop-blur-2xl border border-white/[0.1] shadow-[0_8px_32px_0_rgba(0,0,0,0.37)]">
       <CardHeader>
         <CardTitle className="text-2xl font-semibold tracking-tight text-white/90">Create your Roadmap</CardTitle>
-        <CardDescription className="text-white/60 text-sm leading-relaxed">Tell us your goals, and we'll map the path.</CardDescription>
+        <CardDescription className="text-white/60 text-sm leading-relaxed">Tell us your goals, and we&apos;ll map the path.</CardDescription>
       </CardHeader>
       <CardContent className="space-y-8 mt-6 p-0">
         <AnimatePresence mode="wait">

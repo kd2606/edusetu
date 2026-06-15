@@ -119,13 +119,13 @@ Timeframe: ${timeframe}
 
     return NextResponse.json(data);
 
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error("=== API ERROR ===");
-    console.error("Error Message:", error?.message);
+    console.error("Error Message:", (error as Error)?.message);
     console.error("========================");
     return NextResponse.json({
       error: "Failed to generate roadmap",
-      details: error?.message || String(error)
+      details: (error as Error)?.message || String(error)
     }, { status: 500 });
   }
 }

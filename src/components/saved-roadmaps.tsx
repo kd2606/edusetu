@@ -4,14 +4,15 @@ import { useEffect, useState } from 'react';
 import { createClient } from '@/utils/supabase/client';
 import { Card } from '@/components/ui/card';
 import { Loader2, Route } from 'lucide-react';
+import type { RoadmapData } from '@/components/roadmap-canvas';
 
 type SavedRoadmapsProps = {
-  onSelectRoadmap: (data: any) => void;
+  onSelectRoadmap: (data: RoadmapData) => void;
   onRoadmapsLoaded?: (count: number) => void;
 };
 
 export function SavedRoadmaps({ onSelectRoadmap, onRoadmapsLoaded }: SavedRoadmapsProps) {
-  const [roadmaps, setRoadmaps] = useState<any[]>([]);
+  const [roadmaps, setRoadmaps] = useState<RoadmapData[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   
@@ -42,6 +43,7 @@ export function SavedRoadmaps({ onSelectRoadmap, onRoadmapsLoaded }: SavedRoadma
     };
 
     fetchRoadmaps();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   if (isLoading) {
@@ -78,7 +80,7 @@ export function SavedRoadmaps({ onSelectRoadmap, onRoadmapsLoaded }: SavedRoadma
               <div className="flex items-center justify-between mt-1">
                 <span className="text-xs text-muted-foreground capitalize">{rm.domain}</span>
                 <span className="text-[10px] text-muted-foreground/70">
-                  {new Date(rm.created_at).toLocaleDateString()}
+                  {rm.created_at ? new Date(rm.created_at).toLocaleDateString() : ''}
                 </span>
               </div>
             </div>

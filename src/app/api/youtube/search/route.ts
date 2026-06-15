@@ -47,8 +47,8 @@ export async function POST(req: Request) {
     const data = await response.json();
 
     const videos = (data.items || [])
-      .filter((item: any) => item?.id?.videoId)
-      .map((item: any) => ({
+      .filter((item: { id?: { videoId?: string } }) => item?.id?.videoId)
+      .map((item: { id: { videoId: string }, snippet: { title: string, thumbnails: { medium: { url: string } }, channelTitle: string } }) => ({
         videoId: item.id.videoId,
         title: item.snippet.title,
         thumbnail: item.snippet.thumbnails.medium.url,
@@ -57,8 +57,8 @@ export async function POST(req: Request) {
 
     return NextResponse.json({ videos });
 
-  } catch (error: any) {
-    console.error('YouTube search route error:', error);
-    return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
+  } catch (error: unknown) {
+    console.error('YouTube search failed:', error);
+    return NextResponse.json({ error: 'Failed to fetch videos' }, { status: 500 });
   }
 }

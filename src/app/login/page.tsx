@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import { login, signup } from './actions';
 import { createClient } from '@/utils/supabase/client';
-import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter } from '@/components/ui/card';
+import { Card, CardHeader, CardTitle, CardDescription, CardContent } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Button } from '@/components/ui/button';
@@ -23,8 +23,8 @@ export default function LoginPage() {
           redirectTo: `${window.location.origin}/auth/callback`
         }
       });
-    } catch (err: any) {
-      setError(err.message || "Failed to initialize Google login.");
+    } catch (err: unknown) {
+      setError((err as Error).message || "Failed to initialize Google login.");
       setIsLoading(false);
     }
   };
@@ -84,7 +84,7 @@ export default function LoginPage() {
                 type="submit"
                 className="w-full h-12 bg-white text-black font-medium rounded-xl hover:bg-zinc-200 transition-all active:scale-[0.98]"
                 disabled={isLoading}
-                onClick={(e) => handleSubmit(e as any, login)}
+                onClick={(e) => handleSubmit(e as unknown as React.FormEvent<HTMLFormElement>, login)}
               >
                 Sign In
               </Button>
@@ -92,7 +92,7 @@ export default function LoginPage() {
                 type="submit"
                 className="w-full h-12 bg-transparent border border-white/10 text-white rounded-xl hover:bg-white/[0.05] transition-all flex items-center justify-center gap-2"
                 disabled={isLoading}
-                onClick={(e) => handleSubmit(e as any, signup)}
+                onClick={(e) => handleSubmit(e as unknown as React.FormEvent<HTMLFormElement>, signup)}
               >
                 Create Account
               </Button>

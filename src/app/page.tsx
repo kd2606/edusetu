@@ -4,15 +4,16 @@ import { useState } from 'react';
 import { GeneratorForm } from '@/components/generator-form';
 import { RoadmapCanvas } from '@/components/roadmap-canvas';
 import { SavedRoadmaps } from '@/components/saved-roadmaps';
+import type { RoadmapData } from '@/components/roadmap-canvas';
 import { motion } from 'framer-motion';
 
 export default function Home() {
-  const [roadmapData, setRoadmapData] = useState<any>(null);
+  const [roadmapData, setRoadmapData] = useState<RoadmapData | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [hasHistory, setHasHistory] = useState(false);
 
-  const handleGenerate = async (formData: any) => {
+  const handleGenerate = async (formData: Record<string, unknown>) => {
     setIsLoading(true);
     setError(null);
     try {
@@ -28,8 +29,8 @@ export default function Home() {
       
       const data = await res.json();
       setRoadmapData(data);
-    } catch (err: any) {
-      setError(err.message || "Something went wrong");
+    } catch (err: unknown) {
+      setError((err as Error).message || "Something went wrong");
     } finally {
       setIsLoading(false);
     }
@@ -49,7 +50,7 @@ export default function Home() {
                 <span className="text-white">EduSetu.</span> <span className="bg-gradient-to-r from-zinc-200 to-zinc-500 bg-clip-text text-transparent">Every goal deserves a clear path.</span>
               </h1>
               <p className="text-lg md:text-xl text-zinc-400 max-w-2xl mx-auto leading-relaxed">
-                Where do you want to learn next? Whether you're navigating a school syllabus, cracking a competitive exam, or mastering a new skill, we dynamically map the exact steps to get you there.
+                Where do you want to learn next? Whether you&apos;re navigating a school syllabus, cracking a competitive exam, or mastering a new skill, we dynamically map the exact steps to get you there.
               </p>
             </div>
             <GeneratorForm onGenerate={handleGenerate} isLoading={isLoading} />
