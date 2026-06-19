@@ -12,10 +12,17 @@ export async function AuthButton() {
   }
 
   return (
-    <Link href="/login">
-      <Button className="bg-white/[0.04] hover:bg-white/[0.08] border border-white/[0.06] text-white/90 active:scale-[0.98] transition-all" size="sm">
-        Log In
-      </Button>
-    </Link>
+    <div className="flex items-center gap-3">
+      <Link href="/login">
+        <Button className="bg-transparent hover:bg-white/[0.04] text-white/80 hover:text-white transition-all" size="sm" variant="ghost">
+          Log In
+        </Button>
+      </Link>
+      <Link href="/login">
+        <Button className="bg-white text-black hover:bg-zinc-200 active:scale-[0.98] transition-all font-medium" size="sm">
+          Sign Up
+        </Button>
+      </Link>
+    </div>
   );
 }

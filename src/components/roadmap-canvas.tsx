@@ -254,7 +254,7 @@ export function RoadmapCanvas({ data }: RoadmapCanvasProps) {
       >
         <Background variant={BackgroundVariant.Dots} gap={24} size={1} color="rgba(255,255,255,0.04)" />
         <Controls />
-        <Panel position="top-right">
+        <Panel position="bottom-right">
           <button
             onClick={onDownload}
             className="flex items-center gap-2 bg-white text-black px-4 py-2 rounded-lg shadow-sm text-sm font-medium hover:bg-white/90 active:scale-[0.98] transition-all duration-150 tracking-[-0.01em]"
