@@ -6,7 +6,6 @@ import { Target, Trophy, Flame } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import { getProfile } from '@/app/actions';
 import { getLevelFromXP } from '@/lib/utils';
-import { GeneratorForm } from '@/components/generator-form';
 import { RoadmapCanvas } from '@/components/roadmap-canvas';
 import type { RoadmapData } from '@/components/roadmap-canvas';
 import { ErrorBoundary } from '@/components/error-boundary';
@@ -15,37 +14,12 @@ import { motion } from 'framer-motion';
 export default function DashboardPage() {
   const [profile, setProfile] = useState<{ xp: number, current_streak: number, nodes_completed: number } | null>(null);
   const [roadmapData, setRoadmapData] = useState<RoadmapData | null>(null);
-  const [isGenerating, setIsGenerating] = useState(false);
-  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     getProfile().then(data => {
       if (data) setProfile(data);
     });
   }, []);
-
-  const handleGenerate = async (formData: Record<string, unknown>) => {
-    setIsGenerating(true);
-    setError(null);
-    try {
-      const res = await fetch('/api/generate', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(formData),
-      });
-      
-      if (!res.ok) {
-        throw new Error('Failed to generate roadmap');
-      }
-      
-      const data = await res.json();
-      setRoadmapData(data);
-    } catch (err: unknown) {
-      setError((err as Error).message || "Something went wrong");
-    } finally {
-      setIsGenerating(false);
-    }
-  };
 
   const levelInfo = profile ? getLevelFromXP(profile.xp) : { level: 1, title: 'Novice' };
 
@@ -107,14 +81,7 @@ export default function DashboardPage() {
         </Card>
       </div>
 
-      {/* Generator Form */}
-      <div>
-        <h2 className="text-xl font-semibold tracking-tight text-on-surface mb-6">Create New Roadmap</h2>
-        <div className="max-w-3xl">
-          <GeneratorForm onGenerate={handleGenerate} isLoading={isGenerating} />
-          {error && <p className="text-error mt-4 text-sm font-medium">{error}</p>}
-        </div>
-      </div>
+
 
       {/* Roadmaps */}
       <div>

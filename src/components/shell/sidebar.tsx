@@ -64,7 +64,7 @@ export function Sidebar() {
 
       <div className="px-3 py-2">
         <Link
-          href="/dashboard"
+          href="/dashboard/new"
           className="flex h-14 items-center gap-3 rounded-2xl bg-primary-container px-4
                      text-on-primary-container shadow-e1 transition-all duration-200
                      ease-[var(--ease-standard)] hover:shadow-e2

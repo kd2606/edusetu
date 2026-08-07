@@ -16,8 +16,8 @@ export default function ExplorePage() {
   const router = useRouter();
 
   const handleSelect = (title: string) => {
-    // Navigate to dashboard and pass the prompt via query param
-    router.push(`/dashboard?domain=${encodeURIComponent(title)}`);
+    // Navigate to new roadmap page and pass the prompt via query param
+    router.push(`/dashboard/new?domain=${encodeURIComponent(title)}`);
   };
 
   return (
