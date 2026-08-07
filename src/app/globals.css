@@ -70,6 +70,7 @@
     --ease-exit:       cubic-bezier(0.3, 0, 0.8, 0.15);
 
     color-scheme: light;
+    --grad-btn: linear-gradient(135deg, var(--color-primary) 0%, var(--color-primary-hover) 100%);
   }
 
   .dark {
@@ -129,6 +130,7 @@
     --color-edge-active:              #A8C7FA;
 
     color-scheme: dark;
+    --grad-btn: linear-gradient(135deg, var(--color-primary-container) 0%, var(--color-primary) 100%);
   }
 }
 
@@ -142,6 +144,19 @@
   .text-body       { font: 400 0.875rem/1.5 var(--font-sans, Inter, sans-serif); letter-spacing: 0; }
   .text-label      { font: 500 0.8125rem/1.25 var(--font-sans, Inter, sans-serif); letter-spacing: 0.005em; }
   .text-label-sm   { font: 500 0.6875rem/1.2 var(--font-sans, Inter, sans-serif); letter-spacing: 0.04em; text-transform: uppercase; }
+
+  .text-grad-display {
+    background: linear-gradient(to right, var(--color-on-surface), var(--color-on-surface-muted));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  .text-grad-accent {
+    background: linear-gradient(to right, var(--color-primary), var(--color-primary-fixed-dim));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
 }
 
 @layer base {

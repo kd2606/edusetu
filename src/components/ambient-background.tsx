@@ -1,6 +1,6 @@
 export function AmbientBackground() {
   return (
-    <div className="fixed inset-0 pointer-events-none -z-50 overflow-hidden bg-[hsl(var(--bg-base))]">
+    <div className="fixed inset-0 pointer-events-none -z-50 overflow-hidden bg-background">
       {/* SVG Noise Overlay — HorizonGlow owns all glow/blobs now */}
       <div className="fixed inset-0 opacity-[0.025] mix-blend-overlay pointer-events-none -z-10">
         <svg className="w-full h-full">

@@ -33,14 +33,14 @@ export function FloatingParticles({ count = 30 }: { count?: number }) {
       {particles.map((p) => (
         <motion.div
           key={p.id}
-          className="absolute rounded-full bg-[hsl(var(--accent-bright))]"
+          className="absolute rounded-full bg-primary-container"
           style={{
             left: `${p.x}%`,
             top: `${p.y}%`,
             width: p.size,
             height: p.size,
             opacity: 0.15,
-            boxShadow: `0 0 ${p.size * 2}px hsl(var(--accent-bright) / 0.5)`,
+            boxShadow: `0 0 ${p.size * 2}px var(--color-primary)`,
           }}
           animate={{
             y: [0, -30, 0],

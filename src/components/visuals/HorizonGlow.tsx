@@ -40,7 +40,7 @@ export function HorizonGlow({ intensity = 'full', className }: HorizonGlowProps)
       <div
         className="absolute inset-0"
         style={{
-          background: 'radial-gradient(ellipse at 50% -20%, hsl(222 40% 6%), hsl(var(--bg-base)) 70%)',
+          background: 'radial-gradient(ellipse at 50% -20%, color-mix(in srgb, var(--color-primary) 10%, black), var(--color-background) 70%)',
         }}
       />
 
@@ -52,11 +52,11 @@ export function HorizonGlow({ intensity = 'full', className }: HorizonGlowProps)
           height: '40vh',
           top: isFull ? '60%' : '75%',
           borderRadius: '100% 100% 0 0',
-          background: 'hsl(var(--bg-base))',
+          background: 'var(--color-background)',
           boxShadow: `
-            inset 0 4px 15px hsl(var(--accent-bright) / 0.8),
-            0 -10px 100px 20px hsl(var(--accent) / ${isFull ? '0.5' : '0.2'}),
-            0 -40px 300px 80px hsl(var(--accent-deep) / ${isFull ? '0.3' : '0.1'})
+            inset 0 4px 15px color-mix(in srgb, var(--color-primary) 80%, transparent),
+            0 -10px 100px 20px color-mix(in srgb, var(--color-primary) ${isFull ? '50%' : '20%'}, transparent),
+            0 -40px 300px 80px color-mix(in srgb, var(--color-primary-container) ${isFull ? '30%' : '10%'}, transparent)
           `,
           x: parallaxTilt,
         }}
@@ -72,7 +72,7 @@ export function HorizonGlow({ intensity = 'full', className }: HorizonGlowProps)
           width: '80vw',
           height: '25vh',
           top: isFull ? '55%' : '70%',
-          background: `radial-gradient(ellipse at top, hsl(var(--accent-bright) / ${isFull ? '0.6' : '0.2'}), transparent 70%)`,
+          background: `radial-gradient(ellipse at top, color-mix(in srgb, var(--color-primary) ${isFull ? '60%' : '20%'}, transparent), transparent 70%)`,
           x: parallaxBloom,
         }}
       />
@@ -85,7 +85,7 @@ export function HorizonGlow({ intensity = 'full', className }: HorizonGlowProps)
             width: '100vw',
             height: '100vh',
             top: '0%',
-            background: 'conic-gradient(from 180deg at 50% 100%, transparent 40%, hsl(var(--accent-bright) / 0.15) 50%, transparent 60%)',
+            background: 'conic-gradient(from 180deg at 50% 100%, transparent 40%, color-mix(in srgb, var(--color-primary) 15%, transparent) 50%, transparent 60%)',
             maskImage: 'linear-gradient(to top, black 20%, transparent 80%)',
             x: parallaxShaft,
           }}
@@ -100,12 +100,12 @@ export function HorizonGlow({ intensity = 'full', className }: HorizonGlowProps)
         )}
         style={{
           backgroundImage: `
-            radial-gradient(1.5px 1.5px at 20% 30%, hsl(var(--text-primary)) 0.5px, transparent 0),
-            radial-gradient(1px 1px at 70% 15%, hsl(var(--text-primary)) 0.4px, transparent 0),
-            radial-gradient(1px 1px at 40% 60%, hsl(var(--text-primary)) 0.3px, transparent 0),
-            radial-gradient(1.2px 1.2px at 85% 45%, hsl(var(--text-primary)) 0.4px, transparent 0),
-            radial-gradient(0.8px 0.8px at 15% 80%, hsl(var(--text-primary)) 0.3px, transparent 0),
-            radial-gradient(1px 1px at 55% 85%, hsl(var(--text-primary)) 0.4px, transparent 0)
+            radial-gradient(1.5px 1.5px at 20% 30%, var(--color-on-surface) 0.5px, transparent 0),
+            radial-gradient(1px 1px at 70% 15%, var(--color-on-surface) 0.4px, transparent 0),
+            radial-gradient(1px 1px at 40% 60%, var(--color-on-surface) 0.3px, transparent 0),
+            radial-gradient(1.2px 1.2px at 85% 45%, var(--color-on-surface) 0.4px, transparent 0),
+            radial-gradient(0.8px 0.8px at 15% 80%, var(--color-on-surface) 0.3px, transparent 0),
+            radial-gradient(1px 1px at 55% 85%, var(--color-on-surface) 0.4px, transparent 0)
           `,
           backgroundSize: '350px 350px, 250px 250px, 400px 400px, 300px 300px, 450px 450px, 320px 320px',
           maskImage: 'radial-gradient(circle at 50% 50%, black 20%, transparent 80%)',
