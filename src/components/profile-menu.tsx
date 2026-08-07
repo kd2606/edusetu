@@ -3,7 +3,7 @@
 import { useState, useTransition, useRef, useEffect } from 'react';
 import { Avatar, AvatarFallback } from '@/components/ui/avatar';
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from '@/components/ui/dialog';
-import { BookMarked, Info, LogOut, LayoutDashboard } from 'lucide-react';
+import { BookMarked, Info, LogOut, LayoutDashboard, Settings } from 'lucide-react';
 import { signout } from '@/app/login/actions';
 
 interface ProfileMenuProps {
@@ -107,6 +107,10 @@ export function ProfileMenu({ email }: ProfileMenuProps) {
               <button role="menuitem" onClick={handleOpenHistory} className="w-full text-left px-3 py-2 text-sm hover:bg-surface-high focus:bg-surface-high focus:outline-none flex items-center transition-colors">
                 <BookMarked className="mr-2 h-4 w-4" />
                 <span>My Roadmaps</span>
+              </button>
+              <button role="menuitem" onClick={() => { window.location.href = '/dashboard/settings'; setIsDropdownOpen(false); }} className="w-full text-left px-3 py-2 text-sm hover:bg-surface-high focus:bg-surface-high focus:outline-none flex items-center transition-colors">
+                <Settings className="mr-2 h-4 w-4" />
+                <span>My Profile</span>
               </button>
               <button role="menuitem" onClick={handleOpenAbout} className="w-full text-left px-3 py-2 text-sm hover:bg-surface-high focus:bg-surface-high focus:outline-none flex items-center transition-colors">
                 <Info className="mr-2 h-4 w-4" />
