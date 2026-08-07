@@ -10,7 +10,7 @@ import {
   SheetDescription,
 } from '@/components/ui/sheet';
 import { Badge } from '@/components/ui/badge';
-import { RoadmapNodeData, CachedYouTubeVideo } from './RoadmapNode';
+import { RoadmapNodeData, CachedYouTubeVideo } from '@/types/roadmap';
 import { BookOpen, Target, Dumbbell, Rocket, Video, FileText, Link as LinkIcon } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { isCacheValid } from '@/lib/youtube-cache';

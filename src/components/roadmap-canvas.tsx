@@ -15,7 +15,7 @@ import {
 } from '@xyflow/react';
 import '@xyflow/react/dist/style.css';
 import dagre from 'dagre';
-import { RoadmapNodeData, CachedYouTubeVideo } from './RoadmapNode';
+import { RoadmapNodeData, CachedYouTubeVideo } from '@/types/roadmap';
 import { TopicNode } from './roadmap/topic-node';
 import { NodeDetailsSheet } from './node-details-sheet';
 import { updateRoadmapNodes, grantNodeCompletionXP } from '@/app/actions';
