@@ -50,9 +50,9 @@ export default function Home() {
   return (
     <>
       <Sheet open={isHistoryOpen} onOpenChange={setIsHistoryOpen}>
-        <SheetContent side="right" className="w-full sm:w-[400px] md:w-[540px] bg-[hsl(var(--bg-surface))] border-[hsl(var(--stroke-subtle))] p-0">
-          <SheetHeader className="p-6 pb-2 border-b border-[hsl(var(--stroke-subtle))]">
-            <SheetTitle className="text-[hsl(var(--text-primary))]">My Roadmaps</SheetTitle>
+        <SheetContent side="right" className="w-full sm:w-[400px] md:w-[540px] bg-surface border-outline-variant p-0">
+          <SheetHeader className="p-6 pb-2 border-b border-outline-variant">
+            <SheetTitle className="text-on-surface">My Roadmaps</SheetTitle>
           </SheetHeader>
           <div className="h-[calc(100svh-80px)] overflow-y-auto">
             <SavedRoadmaps onSelectRoadmap={(data) => {
@@ -76,10 +76,10 @@ export default function Home() {
                 initial={{ opacity: 0, y: 12 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.1 }}
-                className="relative h-8 px-3.5 rounded-full bg-[hsl(var(--bg-glass)/0.4)] border border-[hsl(var(--stroke-default))] shadow-rim backdrop-blur-md flex items-center gap-2 mb-8 overflow-hidden"
+                className="relative h-8 px-3.5 rounded-full bg-surface-container border border-outline shadow-e1 flex items-center gap-2 mb-8 overflow-hidden"
               >
                 <Sparkles className="w-3.5 h-3.5 text-accent-bright" />
-                <span className="text-xs text-[hsl(var(--text-secondary))]">AI-Powered Learning Paths</span>
+                <span className="text-xs text-on-surface-variant">AI-Powered Learning Paths</span>
                 {/* Shimmer sweep */}
                 <div className="absolute inset-0 motion-safe:animate-shimmer" style={{ background: 'linear-gradient(90deg, transparent 0%, hsl(var(--accent-bright) / 0.08) 50%, transparent 100%)' }} />
               </motion.div>
@@ -100,7 +100,7 @@ export default function Home() {
                 initial={{ opacity: 0, y: 12 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.3 }}
-                className="text-base md:text-lg text-[hsl(var(--text-secondary))] max-w-2xl mx-auto leading-relaxed mb-12 text-balance"
+                className="text-base md:text-lg text-on-surface-variant max-w-2xl mx-auto leading-relaxed mb-12 text-balance"
               >
                 Where do you want to learn next? Whether you&apos;re navigating a school syllabus, cracking a competitive exam, or mastering a new skill, we dynamically map the exact steps to get you there.
               </motion.p>
@@ -121,10 +121,10 @@ export default function Home() {
           </section>
 
           {/* Target Audience Section */}
-          <section className="w-full max-w-5xl px-6 py-20 border-t border-[hsl(var(--stroke-subtle))]">
+          <section className="w-full max-w-5xl px-6 py-20 border-t border-outline-variant">
             <div className="text-center mb-12">
-              <h2 className="text-3xl font-bold text-[hsl(var(--text-primary))] mb-4">Who is EduSetu for?</h2>
-              <p className="text-[hsl(var(--text-secondary))] max-w-2xl mx-auto">Designed for learners aged 13 and above, EduSetu adapts to your specific educational needs.</p>
+              <h2 className="text-3xl font-bold text-on-surface mb-4">Who is EduSetu for?</h2>
+              <p className="text-on-surface-variant max-w-2xl mx-auto">Designed for learners aged 13 and above, EduSetu adapts to your specific educational needs.</p>
             </div>
             <div className="grid md:grid-cols-3 gap-6">
               {[
@@ -133,19 +133,19 @@ export default function Home() {
                 { title: 'Skill Builders', desc: 'Self-taught developers, designers, and professionals looking to master a new skill with industry-standard roadmaps.' },
               ].map((card) => (
                 <SpotlightCard key={card.title} className="p-6">
-                  <h3 className="text-xl font-semibold text-[hsl(var(--text-primary))] mb-3 relative z-10">{card.title}</h3>
-                  <p className="text-[hsl(var(--text-secondary))] text-sm leading-relaxed relative z-10">{card.desc}</p>
+                  <h3 className="text-xl font-semibold text-on-surface mb-3 relative z-10">{card.title}</h3>
+                  <p className="text-on-surface-muted text-sm leading-relaxed relative z-10">{card.desc}</p>
                 </SpotlightCard>
               ))}
             </div>
           </section>
 
           {/* About Us Section */}
-          <section className="w-full max-w-5xl px-6 py-20 mb-20 border-t border-[hsl(var(--stroke-subtle))]">
+          <section className="w-full max-w-5xl px-6 py-20 mb-20 border-t border-outline-variant">
             <SpotlightCard className="p-8 md:p-12 shadow-card" spotlightColor="rgba(255, 255, 255, 0.08)">
               <div className="relative z-10">
-                <h2 className="text-3xl font-bold text-[hsl(var(--text-primary))] mb-6">Why EduSetu?</h2>
-                <p className="text-[hsl(var(--text-secondary))] leading-relaxed mb-8 max-w-3xl text-lg">
+                <h2 className="text-3xl font-bold text-on-surface mb-6">Why EduSetu?</h2>
+                <p className="text-on-surface-variant leading-relaxed mb-8 max-w-3xl text-lg">
                   A personal mission to make learning less overwhelming, built by a student who felt it firsthand. EduSetu bridges the gap between ambition and execution by giving you a clear, actionable map for any learning goal.
                 </p>
                 <div className="flex flex-wrap gap-3">
@@ -160,7 +160,7 @@ export default function Home() {
                   </a>
                   <a
                     href="mailto:dewangankrrish50@gmail.com"
-                    className="flex items-center gap-2 bg-[hsl(var(--bg-glass)/0.4)] border border-[hsl(var(--stroke-default))] backdrop-blur-md rounded-full h-11 px-6 font-medium text-[hsl(var(--text-primary))] hover:bg-[hsl(var(--bg-elevated))] transition-all duration-150"
+                    className="flex items-center gap-2 bg-surface-container border border-outline-variant rounded-full h-11 px-6 font-medium text-on-surface hover:bg-surface-high transition-all duration-150"
                   >
                     Contact via Email
                   </a>

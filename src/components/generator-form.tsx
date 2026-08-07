@@ -38,12 +38,11 @@ export function GeneratorForm({ onGenerate, isLoading }: GeneratorFormProps) {
 
   return (
     <Card
-      data-glass
-      className="w-full max-w-2xl mx-auto p-8 sm:p-12 bg-black/40 backdrop-blur-2xl border border-white/5 border-t-white/20 shadow-[0_8px_32px_0_rgba(0,0,0,0.5),inset_0_1px_0_0_rgba(255,255,255,0.1)] rounded-2xl focus-within:border-[hsl(var(--stroke-accent))] focus-within:shadow-[0_8px_32px_0_hsl(var(--accent)/0.15)] transition-all duration-300 relative z-20"
+      className="w-full max-w-2xl mx-auto p-8 sm:p-12 rounded-2xl relative z-20"
     >
       <CardHeader>
-        <CardTitle className="text-2xl font-semibold tracking-tight text-[hsl(var(--text-primary))]">Create your Roadmap</CardTitle>
-        <CardDescription className="text-[hsl(var(--text-secondary))] text-sm leading-relaxed">Tell us your goals, and we&apos;ll map the path.</CardDescription>
+        <CardTitle className="text-2xl font-semibold tracking-tight text-on-surface">Create your Roadmap</CardTitle>
+        <CardDescription className="text-on-surface-muted text-sm leading-relaxed">Tell us your goals, and we&apos;ll map the path.</CardDescription>
       </CardHeader>
       <CardContent className="space-y-8 mt-6 p-0">
         <AnimatePresence mode="sync">
@@ -55,7 +54,7 @@ export function GeneratorForm({ onGenerate, isLoading }: GeneratorFormProps) {
               animate={{ opacity: 1, y: 0 }}
               className="space-y-3"
             >
-              <Label htmlFor="domain" className="text-sm font-medium text-[hsl(var(--text-secondary))]">1. Enter your Domain / Exam</Label>
+              <Label htmlFor="domain" className="text-sm font-medium text-on-surface-variant">1. Enter your Domain / Exam</Label>
               <Input 
                 id="domain" 
                 placeholder="e.g. '12th Board CBSE Physics' or 'React Native Developer'" 
@@ -74,7 +73,7 @@ export function GeneratorForm({ onGenerate, isLoading }: GeneratorFormProps) {
               animate={{ opacity: 1, y: 0 }}
               className="space-y-3 mt-6"
             >
-              <Label htmlFor="currentLevel" className="text-sm font-medium text-[hsl(var(--text-secondary))]">2. Current Level</Label>
+              <Label htmlFor="currentLevel" className="text-sm font-medium text-on-surface-variant">2. Current Level</Label>
               <Input 
                 id="currentLevel" 
                 placeholder="e.g. 'I know basic Python' or 'Total beginner'" 
@@ -92,7 +91,7 @@ export function GeneratorForm({ onGenerate, isLoading }: GeneratorFormProps) {
               animate={{ opacity: 1, y: 0 }}
               className="space-y-3 mt-6"
             >
-              <Label htmlFor="ultimateGoal" className="text-sm font-medium text-[hsl(var(--text-secondary))]">3. Ultimate Goal</Label>
+              <Label htmlFor="ultimateGoal" className="text-sm font-medium text-on-surface-variant">3. Ultimate Goal</Label>
               <Input 
                 id="ultimateGoal" 
                 placeholder="e.g. 'Full Stack Developer'" 
@@ -110,7 +109,7 @@ export function GeneratorForm({ onGenerate, isLoading }: GeneratorFormProps) {
               animate={{ opacity: 1, y: 0 }}
               className="space-y-3 mt-6"
             >
-              <Label htmlFor="timeframe" className="text-sm font-medium text-[hsl(var(--text-secondary))]">4. Timeframe</Label>
+              <Label htmlFor="timeframe" className="text-sm font-medium text-on-surface-variant">4. Timeframe</Label>
               <Select onValueChange={(val) => updateForm('timeframe', val as string)} value={formData.timeframe}>
                 <SelectTrigger id="timeframe">
                   <SelectValue placeholder="Select a realistic timeframe" />
@@ -131,7 +130,7 @@ export function GeneratorForm({ onGenerate, isLoading }: GeneratorFormProps) {
         <div className="pt-6">
           <motion.div whileTap={{ scale: 0.98 }} whileHover={{ y: -1 }}>
             <Button 
-              className="w-full h-12 text-base mt-4 rounded-full font-medium tracking-[-0.01em] text-white shadow-[0_1px_0_0_hsl(0_0%_100%/0.25)_inset,var(--shadow-glow-sm)] hover:shadow-glow-md transition-all duration-150" 
+              className="w-full h-12 text-base mt-4 rounded-full font-medium tracking-[-0.01em] shadow-e1 hover:shadow-e2 transition-all duration-150" 
               style={{ background: 'var(--grad-btn)' }}
               size="lg" 
               disabled={!formData.domain || !formData.currentLevel || !formData.ultimateGoal || !formData.timeframe || isLoading}
