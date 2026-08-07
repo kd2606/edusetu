@@ -5,8 +5,11 @@ import { usePathname } from "next/navigation";
 import { useState } from "react";
 import {
   LayoutGrid, Route, Compass, BarChart3, Settings,
-  Plus, Flame, Menu, GraduationCap,
+  Plus, Flame, Menu, GraduationCap
 } from "lucide-react";
+import { useEffect } from "react";
+import { getProfile } from "@/app/actions";
+import { getLevelFromXP } from "@/lib/utils";
 
 const NAV = [
   { label: "Overview",    href: "/dashboard",           icon: LayoutGrid },
@@ -18,6 +21,19 @@ const NAV = [
 export function Sidebar() {
   const pathname = usePathname();
   const [expanded, setExpanded] = useState(true);
+  const [profile, setProfile] = useState<{ xp: number, current_streak: number } | null>(null);
+
+  useEffect(() => {
+    getProfile().then(data => {
+      if (data) setProfile(data);
+    });
+  }, [pathname]); // Refresh when path changes
+
+  const levelInfo = profile ? getLevelFromXP(profile.xp) : { level: 1 };
+  const baseXP = (levelInfo.level - 1) * 300;
+  const nextLevelXP = levelInfo.level * 300;
+  const xpInCurrentLevel = (profile?.xp || 0) - baseXP;
+  const progressPercent = Math.min(100, Math.max(0, (xpInCurrentLevel / 300) * 100));
 
   return (
     <aside
@@ -105,11 +121,17 @@ export function Sidebar() {
           <Flame className="size-5 shrink-0 text-progress" strokeWidth={2.2} />
           <div className="mt-3 group-data-[expanded=false]/rail:hidden">
             <p className="text-label-sm text-on-surface-muted">Current streak</p>
-            <p className="text-title-lg mt-0.5 text-on-surface tabular-nums">12 days</p>
-            <div className="mt-3 h-1.5 w-full overflow-hidden rounded-full bg-surface-highest">
-              <div className="h-full rounded-full bg-primary" style={{ width: "68%" }} />
+            <p className="text-title-lg mt-0.5 text-on-surface tabular-nums">{profile ? profile.current_streak : 0} days</p>
+            <div className="mt-3 h-1.5 w-full overflow-hidden rounded-full bg-surface-highest relative">
+              {profile ? (
+                <div className="h-full rounded-full bg-primary" style={{ width: `${progressPercent}%` }} />
+              ) : (
+                <div className="h-full w-full bg-surface-high animate-pulse" />
+              )}
             </div>
-            <p className="text-label-sm mt-2 text-on-surface-muted">2,480 / 3,600 XP</p>
+            <p className="text-label-sm mt-2 text-on-surface-muted">
+              {profile ? `${profile.xp.toLocaleString()} / ${nextLevelXP.toLocaleString()} XP` : 'Loading...'}
+            </p>
           </div>
         </div>
 

@@ -1,8 +1,33 @@
 "use client";
 
-import { Search, Bell, Sun, Moon } from "lucide-react";
+import { Search, Bell, Sun, Moon, Clock } from "lucide-react";
 import { useTheme } from "next-themes";
 import { useEffect, useState } from "react";
+
+function RealTimeClock() {
+  const [time, setTime] = useState(new Date());
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+    const interval = setInterval(() => {
+      setTime(new Date());
+    }, 1000);
+    return () => clearInterval(interval);
+  }, []);
+
+  if (!mounted) return <div className="w-[100px] h-8 bg-surface-highest animate-pulse rounded-full" />;
+
+  const timeString = time.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' });
+
+  return (
+    <div className="flex items-center gap-2 px-4 py-1.5 rounded-full bg-surface-container border border-outline-variant text-on-surface-variant font-medium text-sm tabular-nums shadow-sm">
+      <Clock className="w-4 h-4 text-primary" />
+      {timeString}
+    </div>
+  );
+}
+
 export function TopAppBar({ authButton }: { authButton?: React.ReactNode }) {
   const { theme, setTheme } = useTheme();
   const [mounted, setMounted] = useState(false);
@@ -29,6 +54,8 @@ export function TopAppBar({ authButton }: { authButton?: React.ReactNode }) {
       </div>
 
       <div className="ml-auto flex items-center gap-2">
+        {mounted && <RealTimeClock />}
+
         {mounted && (
           <IconButton label="Toggle theme" onClick={() => setTheme(theme === "dark" ? "light" : "dark")}>
             {theme === "dark" ? <Sun className="size-5" strokeWidth={2} /> : <Moon className="size-5" strokeWidth={2} />}
