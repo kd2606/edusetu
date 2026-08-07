@@ -195,16 +195,26 @@ export function RoadmapCanvas({ data }: RoadmapCanvasProps) {
   }, []);
 
   const onDownload = useCallback(() => {
+    const container = document.querySelector('.react-flow') as HTMLElement;
     const viewport = document.querySelector('.react-flow__viewport') as HTMLElement;
-    if (viewport) {
-      toPng(viewport, { backgroundColor: '#09090b' }) // match dark background
+    if (viewport && container) {
+      // Enable export-safe mode: swap glass to opaque, hide glow
+      container.classList.add('export-mode');
+      const glowEls = container.querySelectorAll('[data-horizon-glow]');
+      glowEls.forEach(el => (el as HTMLElement).style.display = 'none');
+
+      toPng(viewport, { backgroundColor: '#04060C' })
         .then((dataUrl) => {
           const a = document.createElement('a');
           a.setAttribute('download', `${data.title.replace(/\s+/g, '_')}_roadmap.png`);
           a.setAttribute('href', dataUrl);
           a.click();
         })
-        .catch(console.error);
+        .catch(console.error)
+        .finally(() => {
+          container.classList.remove('export-mode');
+          glowEls.forEach(el => (el as HTMLElement).style.display = '');
+        });
     }
   }, [data.title]);
 
@@ -236,10 +246,10 @@ export function RoadmapCanvas({ data }: RoadmapCanvasProps) {
   }, [nodes, data.id, setNodes]);
 
   return (
-    <div className="w-full h-full min-h-screen bg-background relative">
-      <div className="absolute top-4 left-4 z-10 bg-card/80 backdrop-blur-sm border rounded-lg p-4 shadow-sm">
-        <h2 className="font-bold text-xl">{data.title}</h2>
-        <p className="text-muted-foreground text-sm">Estimated Duration: {data.estimated_duration}</p>
+    <div className="w-full h-full min-h-screen bg-[hsl(var(--bg-base))] relative">
+      <div data-glass className="absolute top-4 left-4 z-10 bg-[hsl(var(--bg-glass)/0.65)] backdrop-blur-xl border border-[hsl(var(--stroke-default))] rounded-lg p-4 shadow-rim shadow-card">
+        <h2 className="font-bold text-xl text-[hsl(var(--text-primary))]">{data.title}</h2>
+        <p className="text-[hsl(var(--text-secondary))] text-sm">Estimated Duration: {data.estimated_duration}</p>
       </div>
       <ReactFlow
         nodes={nodes}
@@ -250,14 +260,15 @@ export function RoadmapCanvas({ data }: RoadmapCanvasProps) {
         nodeTypes={nodeTypes}
         fitView
         colorMode="dark"
-        defaultEdgeOptions={{ type: 'smoothstep', style: { stroke: 'rgba(255,255,255,0.12)', strokeWidth: 1 } }}
+        defaultEdgeOptions={{ type: 'smoothstep', style: { stroke: 'hsl(217 30% 45% / 0.25)', strokeWidth: 1.5 } }}
       >
-        <Background variant={BackgroundVariant.Dots} gap={24} size={1} color="rgba(255,255,255,0.04)" />
+        <Background variant={BackgroundVariant.Dots} gap={22} size={1.4} color="hsl(217 30% 45% / 0.20)" />
         <Controls />
         <Panel position="top-right">
           <button
             onClick={onDownload}
-            className="flex items-center gap-2 bg-white text-black px-4 py-2 rounded-lg shadow-sm text-sm font-medium hover:bg-white/90 active:scale-[0.98] transition-all duration-150 tracking-[-0.01em]"
+            className="flex items-center gap-2 rounded-full h-9 px-4 text-white text-sm font-medium shadow-[0_1px_0_0_hsl(0_0%_100%/0.25)_inset] shadow-glow-sm hover:shadow-glow-md hover:-translate-y-px active:scale-[0.98] transition-all duration-150"
+            style={{ background: 'var(--grad-btn)' }}
           >
             <Download className="w-4 h-4" />
             Download

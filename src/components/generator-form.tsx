@@ -37,10 +37,13 @@ export function GeneratorForm({ onGenerate, isLoading }: GeneratorFormProps) {
   const handleNext = () => setStep(s => s + 1);
 
   return (
-    <Card className="w-full max-w-2xl mx-auto p-8 sm:p-12 bg-white/[0.03] backdrop-blur-2xl border border-white/[0.1] shadow-[0_8px_32px_0_rgba(0,0,0,0.37)]">
+    <Card
+      data-glass
+      className="w-full max-w-2xl mx-auto p-8 sm:p-12 bg-[hsl(var(--bg-glass)/0.6)] backdrop-blur-xl border border-[hsl(var(--stroke-default))] shadow-rim shadow-card rounded-2xl focus-within:border-[hsl(var(--stroke-accent))] focus-within:shadow-glow-sm transition-all duration-300"
+    >
       <CardHeader>
-        <CardTitle className="text-2xl font-semibold tracking-tight text-white/90">Create your Roadmap</CardTitle>
-        <CardDescription className="text-white/60 text-sm leading-relaxed">Tell us your goals, and we&apos;ll map the path.</CardDescription>
+        <CardTitle className="text-2xl font-semibold tracking-tight text-[hsl(var(--text-primary))]">Create your Roadmap</CardTitle>
+        <CardDescription className="text-[hsl(var(--text-secondary))] text-sm leading-relaxed">Tell us your goals, and we&apos;ll map the path.</CardDescription>
       </CardHeader>
       <CardContent className="space-y-8 mt-6 p-0">
         <AnimatePresence mode="sync">
@@ -52,7 +55,7 @@ export function GeneratorForm({ onGenerate, isLoading }: GeneratorFormProps) {
               animate={{ opacity: 1, y: 0 }}
               className="space-y-3"
             >
-              <Label htmlFor="domain" className="text-sm font-medium text-zinc-300">1. Select your Domain</Label>
+              <Label htmlFor="domain" className="text-sm font-medium text-[hsl(var(--text-secondary))]">1. Select your Domain</Label>
               <Select onValueChange={(val) => { updateForm('domain', val as string); if (step === 1) handleNext(); }} value={formData.domain}>
                 <SelectTrigger id="domain">
                   <SelectValue placeholder="e.g. Tech Skill or Competitive Exam" />
@@ -74,7 +77,7 @@ export function GeneratorForm({ onGenerate, isLoading }: GeneratorFormProps) {
               animate={{ opacity: 1, y: 0 }}
               className="space-y-3 mt-6"
             >
-              <Label htmlFor="currentLevel" className="text-sm font-medium text-zinc-300">2. Current Level</Label>
+              <Label htmlFor="currentLevel" className="text-sm font-medium text-[hsl(var(--text-secondary))]">2. Current Level</Label>
               <Input 
                 id="currentLevel" 
                 placeholder="e.g. 'I know basic Python' or 'Total beginner'" 
@@ -92,7 +95,7 @@ export function GeneratorForm({ onGenerate, isLoading }: GeneratorFormProps) {
               animate={{ opacity: 1, y: 0 }}
               className="space-y-3 mt-6"
             >
-              <Label htmlFor="ultimateGoal" className="text-sm font-medium text-zinc-300">3. Ultimate Goal</Label>
+              <Label htmlFor="ultimateGoal" className="text-sm font-medium text-[hsl(var(--text-secondary))]">3. Ultimate Goal</Label>
               <Input 
                 id="ultimateGoal" 
                 placeholder="e.g. 'Full Stack Developer'" 
@@ -110,7 +113,7 @@ export function GeneratorForm({ onGenerate, isLoading }: GeneratorFormProps) {
               animate={{ opacity: 1, y: 0 }}
               className="space-y-3 mt-6"
             >
-              <Label htmlFor="timeframe" className="text-sm font-medium text-zinc-300">4. Timeframe</Label>
+              <Label htmlFor="timeframe" className="text-sm font-medium text-[hsl(var(--text-secondary))]">4. Timeframe</Label>
               <Select onValueChange={(val) => updateForm('timeframe', val as string)} value={formData.timeframe}>
                 <SelectTrigger id="timeframe">
                   <SelectValue placeholder="Select a realistic timeframe" />
@@ -129,9 +132,10 @@ export function GeneratorForm({ onGenerate, isLoading }: GeneratorFormProps) {
         </AnimatePresence>
 
         <div className="pt-6">
-          <motion.div whileTap={{ scale: 0.95 }} whileHover={{ scale: 1.02 }}>
+          <motion.div whileTap={{ scale: 0.98 }} whileHover={{ y: -1 }}>
             <Button 
-              className="w-full h-12 text-base mt-4 bg-white text-black hover:bg-white/90 transition-all duration-150 rounded-xl font-medium tracking-[-0.01em]" 
+              className="w-full h-12 text-base mt-4 rounded-full font-medium tracking-[-0.01em] text-white shadow-[0_1px_0_0_hsl(0_0%_100%/0.25)_inset,var(--shadow-glow-sm)] hover:shadow-glow-md transition-all duration-150" 
+              style={{ background: 'var(--grad-btn)' }}
               size="lg" 
               disabled={!formData.domain || !formData.currentLevel || !formData.ultimateGoal || !formData.timeframe || isLoading}
               onClick={() => onGenerate(formData)}

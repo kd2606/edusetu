@@ -85,37 +85,37 @@ export function ProfileMenu({ email }: ProfileMenuProps) {
           onClick={() => setIsDropdownOpen(!isDropdownOpen)}
           aria-haspopup="true"
           aria-expanded={isDropdownOpen}
-          className="relative h-10 w-10 rounded-full bg-white/[0.04] border border-white/[0.08] hover:bg-white/[0.1] transition-all flex items-center justify-center outline-none"
+          className="relative h-10 w-10 rounded-full bg-[hsl(var(--bg-glass)/0.4)] border border-[hsl(var(--stroke-default))] hover:bg-[hsl(var(--bg-elevated))] transition-all flex items-center justify-center outline-none"
         >
           <Avatar className="h-9 w-9">
-            <AvatarFallback className="bg-transparent text-white font-medium">{initials}</AvatarFallback>
+            <AvatarFallback className="bg-transparent text-[hsl(var(--text-primary))] font-medium">{initials}</AvatarFallback>
           </Avatar>
         </button>
 
         {isDropdownOpen && (
-          <div role="menu" className="absolute right-0 mt-2 w-56 rounded-md shadow-lg bg-background ring-1 ring-white/10 z-50 text-white/90 overflow-hidden animate-in fade-in zoom-in-95 duration-100">
-            <div className="px-3 py-2 border-b border-white/10">
-              <p className="text-sm font-medium text-white">My Account</p>
+          <div role="menu" className="absolute right-0 mt-2 w-56 rounded-md shadow-lg bg-background ring-1 ring-[hsl(var(--stroke-default))] z-50 text-[hsl(var(--text-primary))] overflow-hidden animate-in fade-in zoom-in-95 duration-100">
+            <div className="px-3 py-2 border-b border-[hsl(var(--stroke-default))]">
+              <p className="text-sm font-medium text-[hsl(var(--text-primary))]">My Account</p>
               <p className="text-xs text-muted-foreground truncate mt-1">{email}</p>
             </div>
             
             <div className="py-1">
-              <button role="menuitem" onClick={handleOpenHistory} className="w-full text-left px-3 py-2 text-sm hover:bg-white/[0.05] focus:bg-white/[0.05] focus:outline-none flex items-center transition-colors">
+              <button role="menuitem" onClick={handleOpenHistory} className="w-full text-left px-3 py-2 text-sm hover:bg-[hsl(var(--bg-elevated))] focus:bg-[hsl(var(--bg-elevated))] focus:outline-none flex items-center transition-colors">
                 <BookMarked className="mr-2 h-4 w-4" />
                 <span>My Roadmaps</span>
               </button>
-              <button role="menuitem" onClick={handleOpenAbout} className="w-full text-left px-3 py-2 text-sm hover:bg-white/[0.05] focus:bg-white/[0.05] focus:outline-none flex items-center transition-colors">
+              <button role="menuitem" onClick={handleOpenAbout} className="w-full text-left px-3 py-2 text-sm hover:bg-[hsl(var(--bg-elevated))] focus:bg-[hsl(var(--bg-elevated))] focus:outline-none flex items-center transition-colors">
                 <Info className="mr-2 h-4 w-4" />
                 <span>About EduSetu</span>
               </button>
             </div>
             
-            <div className="border-t border-white/10 py-1">
+            <div className="border-t border-[hsl(var(--stroke-default))] py-1">
               <button 
                 role="menuitem"
                 onClick={handleSignOut} 
                 disabled={isPending}
-                className="w-full text-left px-3 py-2 text-sm text-red-400 hover:bg-red-400/10 focus:bg-red-400/10 focus:outline-none flex items-center transition-colors disabled:opacity-50"
+                className="w-full text-left px-3 py-2 text-sm text-[hsl(var(--danger))] hover:bg-[hsl(var(--danger)/0.1)] focus:bg-[hsl(var(--danger)/0.1)] focus:outline-none flex items-center transition-colors disabled:opacity-50"
               >
                 <LogOut className="mr-2 h-4 w-4" />
                 <span>{isPending ? 'Signing out...' : 'Sign Out'}</span>
@@ -126,29 +126,29 @@ export function ProfileMenu({ email }: ProfileMenuProps) {
       </div>
 
       <Dialog open={isAboutOpen} onOpenChange={setIsAboutOpen}>
-        <DialogContent className="bg-background border-white/[0.1] text-white/90 sm:max-w-md">
+        <DialogContent className="bg-background border-[hsl(var(--stroke-default))] text-[hsl(var(--text-primary))] sm:max-w-md">
           <DialogHeader>
             <DialogTitle className="text-xl">About EduSetu</DialogTitle>
-            <DialogDescription className="text-zinc-400">
+            <DialogDescription className="text-[hsl(var(--text-secondary))]">
               Your AI-driven navigator for mastering any skill.
             </DialogDescription>
           </DialogHeader>
           <div className="space-y-4 pt-4">
             <div className="space-y-1">
-              <h4 className="text-sm font-medium text-white">Why EduSetu?</h4>
-              <p className="text-sm text-zinc-400">EduSetu was built to solve the overwhelm of learning. By breaking down complex topics into clear, actionable roadmaps, it gives you the exact steps needed to reach your goal.</p>
+              <h4 className="text-sm font-medium text-[hsl(var(--text-primary))]">Why EduSetu?</h4>
+              <p className="text-sm text-[hsl(var(--text-secondary))]">EduSetu was built to solve the overwhelm of learning. By breaking down complex topics into clear, actionable roadmaps, it gives you the exact steps needed to reach your goal.</p>
             </div>
             <div className="space-y-1">
-              <h4 className="text-sm font-medium text-white">Creator</h4>
-              <p className="text-sm text-zinc-400">A personal mission to make learning less overwhelming, built by a student who felt it firsthand.</p>
+              <h4 className="text-sm font-medium text-[hsl(var(--text-primary))]">Creator</h4>
+              <p className="text-sm text-[hsl(var(--text-secondary))]">A personal mission to make learning less overwhelming, built by a student who felt it firsthand.</p>
             </div>
             <div className="space-y-1">
-              <h4 className="text-sm font-medium text-white">Connect</h4>
-              <p className="text-sm text-zinc-400">
-                Portfolio &rarr; <a href="https://krrish-portfolio-six.vercel.app/" target="_blank" className="text-blue-400 hover:underline">https://krrish-portfolio-six.vercel.app/</a>
+              <h4 className="text-sm font-medium text-[hsl(var(--text-primary))]">Connect</h4>
+              <p className="text-sm text-[hsl(var(--text-secondary))]">
+                Portfolio &rarr; <a href="https://krrish-portfolio-six.vercel.app/" target="_blank" className="text-accent hover:underline">https://krrish-portfolio-six.vercel.app/</a>
               </p>
-              <p className="text-sm text-zinc-400">
-                Email &rarr; <a href="mailto:dewangankrrish50@gmail.com" className="text-blue-400 hover:underline">dewangankrrish50@gmail.com</a>
+              <p className="text-sm text-[hsl(var(--text-secondary))]">
+                Email &rarr; <a href="mailto:dewangankrrish50@gmail.com" className="text-accent hover:underline">dewangankrrish50@gmail.com</a>
               </p>
             </div>
           </div>

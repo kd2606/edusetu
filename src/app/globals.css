@@ -1,4 +1,3 @@
-
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -14,98 +13,210 @@
     --font-heading: var(--font-inter);
     --font-sans: var(--font-inter);
   }
+
   body {
     font-family: var(--font-inter), system-ui, sans-serif;
-    font-feature-settings: 'cv11', 'ss01', 'ss03';
+    font-feature-settings: 'cv11', 'ss01', 'ss03', 'tnum';
   }
+
+  /* ───────────────────────────────────────────────
+   * Design Tokens — Navy-black Neone aesthetic
+   * Mirrored in :root AND .dark so removing .dark
+   * never causes a white-screen. The app is
+   * single-theme by construction.
+   * ─────────────────────────────────────────────── */
+
   :root {
-    --background: oklch(1 0 0);
-    --foreground: oklch(0.145 0 0);
-    --card: oklch(1 0 0);
-    --card-foreground: oklch(0.145 0 0);
-    --popover: oklch(1 0 0);
-    --popover-foreground: oklch(0.145 0 0);
-    --primary: oklch(0.205 0 0);
-    --primary-foreground: oklch(0.985 0 0);
-    --secondary: oklch(0.97 0 0);
-    --secondary-foreground: oklch(0.205 0 0);
-    --muted: oklch(0.97 0 0);
-    --muted-foreground: oklch(0.556 0 0);
-    --accent: oklch(0.97 0 0);
-    --accent-foreground: oklch(0.205 0 0);
-    --destructive: oklch(0.577 0.245 27.325);
-    --border: oklch(0.922 0 0);
-    --input: oklch(0.922 0 0);
-    --ring: oklch(0.708 0 0);
-    --chart-1: oklch(0.87 0 0);
-    --chart-2: oklch(0.556 0 0);
-    --chart-3: oklch(0.439 0 0);
-    --chart-4: oklch(0.371 0 0);
-    --chart-5: oklch(0.269 0 0);
-    --radius: 0.625rem;
-    --sidebar: oklch(0.985 0 0);
-    --sidebar-foreground: oklch(0.145 0 0);
-    --sidebar-primary: oklch(0.205 0 0);
-    --sidebar-primary-foreground: oklch(0.985 0 0);
-    --sidebar-accent: oklch(0.97 0 0);
-    --sidebar-accent-foreground: oklch(0.205 0 0);
-    --sidebar-border: oklch(0.922 0 0);
-    --sidebar-ring: oklch(0.708 0 0);
+    /* ── Layout ── */
+    --header-h: 73px;
+
+    /* ── Surfaces (cool navy-black) ── */
+    --bg-base: 222 60% 3%;          /* ~#04060C — page canvas */
+    --bg-surface: 222 44% 6%;       /* cards, nodes, sheet body */
+    --bg-elevated: 222 38% 9%;      /* hover states, popovers */
+    --bg-glass: 222 40% 8%;         /* 60–72% alpha + backdrop-blur */
+
+    /* ── Text ── */
+    --text-primary: 210 40% 98%;
+    --text-secondary: 215 20% 68%;
+    --text-muted: 215 16% 47%;
+
+    /* ── Accent — one blue, three stops ── */
+    --accent: 217 91% 60%;          /* #3B82F6 primary */
+    --accent-bright: 213 94% 74%;   /* #7CB2FD highlights, arc rim */
+    --accent-deep: 224 76% 48%;     /* button gradient bottom */
+    --accent-cyan: 189 94% 55%;     /* sparingly: active edges */
+
+    /* ── Semantic ── */
+    --success: 158 64% 45%;
+    --warning: 38 92% 55%;
+    --danger: 0 72% 55%;
+
+    /* ── Strokes ── */
+    --stroke-subtle: 0 0% 100% / 0.06;
+    --stroke-default: 0 0% 100% / 0.10;
+    --stroke-strong: 0 0% 100% / 0.16;
+    --stroke-accent: 217 91% 60% / 0.35;
+
+    /* ── Gradients ── */
+    --grad-display: linear-gradient(180deg, #FFFFFF 0%, #C3D0E8 55%, #8FA3C4 100%);
+    --grad-display-accent: linear-gradient(180deg, #E6F0FF 0%, hsl(var(--accent-bright)) 100%);
+    --grad-btn: linear-gradient(180deg, hsl(217 91% 62%) 0%, hsl(var(--accent-deep)) 100%);
+    --grad-surface: linear-gradient(180deg, hsl(var(--bg-elevated)) 0%, hsl(var(--bg-surface)) 100%);
+
+    /* ── Radii ── */
+    --radius: 14px;
+    --radius-input: 10px;
+    --radius-pill: 9999px;
+
+    /* ── shadcn compatibility tokens ── */
+    --background: hsl(var(--bg-base));
+    --foreground: hsl(var(--text-primary));
+    --card: hsl(var(--bg-surface));
+    --card-foreground: hsl(var(--text-primary));
+    --popover: hsl(var(--bg-elevated));
+    --popover-foreground: hsl(var(--text-primary));
+    --primary: hsl(var(--accent));
+    --primary-foreground: hsl(var(--text-primary));
+    --secondary: hsl(var(--bg-elevated));
+    --secondary-foreground: hsl(var(--text-primary));
+    --muted: hsl(var(--bg-surface));
+    --muted-foreground: hsl(var(--text-muted));
+    --accent-color: hsl(var(--bg-elevated));
+    --accent-foreground: hsl(var(--text-primary));
+    --destructive: hsl(var(--danger));
+    --destructive-foreground: hsl(var(--text-primary));
+    --border: hsl(var(--stroke-default));
+    --input: hsl(var(--bg-surface));
+    --ring: hsl(var(--accent));
+    --chart-1: hsl(var(--accent));
+    --chart-2: hsl(var(--accent-bright));
+    --chart-3: hsl(var(--accent-deep));
+    --chart-4: hsl(var(--text-secondary));
+    --chart-5: hsl(var(--text-muted));
+    --sidebar: hsl(var(--bg-surface));
+    --sidebar-foreground: hsl(var(--text-primary));
+    --sidebar-primary: hsl(var(--accent));
+    --sidebar-primary-foreground: hsl(var(--text-primary));
+    --sidebar-accent: hsl(var(--bg-elevated));
+    --sidebar-accent-foreground: hsl(var(--text-primary));
+    --sidebar-border: hsl(var(--stroke-subtle));
+    --sidebar-ring: hsl(var(--accent));
   }
+
+  /* Mirror all tokens into .dark — the class stays on <html>,
+     and these values are identical to :root so the app is
+     single-theme by construction. Removing .dark later is safe. */
   .dark {
-    --background: hsl(240, 6%, 4%);
-    --foreground: oklch(0.985 0 0);
-    --card: hsl(240, 6%, 6%);
-    --card-foreground: oklch(0.985 0 0);
-    --popover: hsl(240, 6%, 6%);
-    --popover-foreground: oklch(0.985 0 0);
-    --primary: oklch(0.922 0 0);
-    --primary-foreground: oklch(0.205 0 0);
-    --secondary: oklch(0.269 0 0);
-    --secondary-foreground: oklch(0.985 0 0);
-    --muted: oklch(0.269 0 0);
-    --muted-foreground: oklch(0.556 0 0);
-    --accent: oklch(0.269 0 0);
-    --accent-foreground: oklch(0.985 0 0);
-    --destructive: oklch(0.396 0.141 25.723);
-    --border: hsl(0, 0%, 15%);
-    --input: oklch(0.269 0 0);
-    --ring: oklch(0.708 0 0);
-    --chart-1: oklch(0.87 0 0);
-    --chart-2: oklch(0.556 0 0);
-    --chart-3: oklch(0.439 0 0);
-    --chart-4: oklch(0.371 0 0);
-    --chart-5: oklch(0.269 0 0);
-    --sidebar: oklch(0.205 0 0);
-    --sidebar-foreground: oklch(0.985 0 0);
-    --sidebar-primary: oklch(0.488 0.243 264.376);
-    --sidebar-primary-foreground: oklch(0.985 0 0);
-    --sidebar-accent: oklch(0.269 0 0);
-    --sidebar-accent-foreground: oklch(0.985 0 0);
-    --sidebar-border: oklch(1 0 0 / 10%);
-    --sidebar-ring: oklch(0.556 0 0);
+    --background: hsl(var(--bg-base));
+    --foreground: hsl(var(--text-primary));
+    --card: hsl(var(--bg-surface));
+    --card-foreground: hsl(var(--text-primary));
+    --popover: hsl(var(--bg-elevated));
+    --popover-foreground: hsl(var(--text-primary));
+    --primary: hsl(var(--accent));
+    --primary-foreground: hsl(var(--text-primary));
+    --secondary: hsl(var(--bg-elevated));
+    --secondary-foreground: hsl(var(--text-primary));
+    --muted: hsl(var(--bg-surface));
+    --muted-foreground: hsl(var(--text-muted));
+    --accent-color: hsl(var(--bg-elevated));
+    --accent-foreground: hsl(var(--text-primary));
+    --destructive: hsl(var(--danger));
+    --destructive-foreground: hsl(var(--text-primary));
+    --border: hsl(var(--stroke-default));
+    --input: hsl(var(--bg-surface));
+    --ring: hsl(var(--accent));
+    --chart-1: hsl(var(--accent));
+    --chart-2: hsl(var(--accent-bright));
+    --chart-3: hsl(var(--accent-deep));
+    --chart-4: hsl(var(--text-secondary));
+    --chart-5: hsl(var(--text-muted));
+    --sidebar: hsl(var(--bg-surface));
+    --sidebar-foreground: hsl(var(--text-primary));
+    --sidebar-primary: hsl(var(--accent));
+    --sidebar-primary-foreground: hsl(var(--text-primary));
+    --sidebar-accent: hsl(var(--bg-elevated));
+    --sidebar-accent-foreground: hsl(var(--text-primary));
+    --sidebar-border: hsl(var(--stroke-subtle));
+    --sidebar-ring: hsl(var(--accent));
   }
+
   * {
     @apply border-border;
   }
+
   body {
     background: var(--background);
     @apply text-foreground;
   }
+
   html {
     @apply font-sans;
   }
-  
+
+  /* Autofill — matches new --bg-base (#04060C) */
   input:-webkit-autofill {
-    -webkit-box-shadow: 0 0 0 100px hsl(240, 6%, 4%) inset !important;
-    -webkit-text-fill-color: white !important;
+    -webkit-box-shadow: 0 0 0 100px hsl(222 60% 3%) inset !important;
+    -webkit-text-fill-color: hsl(210 40% 98%) !important;
   }
 }
 
 @layer utilities {
+  /* Glass panel — updated for navy-black theme */
   .glass-panel {
-    background-color: rgba(0, 0, 0, 0.4);
+    background-color: hsl(var(--bg-glass) / 0.65);
     backdrop-filter: blur(16px);
-    border: 1px solid rgba(255, 255, 255, 0.06);
+    border: 1px solid hsl(var(--stroke-subtle));
+  }
+
+  /* Export-safe override: swaps glass to opaque during PNG capture */
+  .export-mode .glass-panel,
+  .export-mode [data-glass] {
+    background-color: hsl(var(--bg-surface)) !important;
+    backdrop-filter: none !important;
+  }
+
+  /* Gradient text utilities */
+  .text-grad-display {
+    background: var(--grad-display);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .text-grad-accent {
+    background: var(--grad-display-accent);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  /* Display type scale */
+  .text-display {
+    font-size: clamp(2.75rem, 6.2vw, 5.5rem);
+    letter-spacing: -0.035em;
+    line-height: 0.98;
+    font-weight: 700;
+  }
+
+  /* Eyebrow/label scale */
+  .text-eyebrow {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    color: hsl(var(--text-muted));
+  }
+}
+
+/* ── Reduced Motion ── */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
   }
 }

@@ -35,9 +35,9 @@ const categoryIcons = {
 };
 
 const priorityColors = {
-  critical: 'bg-red-500 shadow-[0_0_12px_2px_rgba(239,68,68,0.6)]',
-  high: 'bg-amber-400 shadow-[0_0_12px_2px_rgba(251,191,36,0.6)]',
-  medium: 'bg-blue-500 shadow-[0_0_12px_2px_rgba(59,130,246,0.6)]',
+  critical: 'bg-[hsl(var(--danger))] shadow-[0_0_12px_2px_hsl(var(--danger)/0.6)]',
+  high: 'bg-[hsl(var(--warning))] shadow-[0_0_12px_2px_hsl(var(--warning)/0.6)]',
+  medium: 'bg-accent shadow-[0_0_12px_2px_hsl(var(--accent)/0.6)]',
 };
 
 export type RoadmapNodeType = Node<RoadmapNodeData, 'roadmapNode'>;
@@ -57,7 +57,7 @@ export function RoadmapNode({ data }: NodeProps<RoadmapNodeType>) {
         whileHover={{ scale: 1.02 }}
         transition={{ duration: 0.15, ease: 'easeOut' }}
         className={cn(
-          "w-64 bg-black/40 backdrop-blur-xl rounded-xl shadow-sm border border-white/[0.06] flex flex-col p-3 relative text-foreground",
+          "w-64 bg-[hsl(var(--bg-surface))] backdrop-blur-xl rounded-lg shadow-rim border border-[hsl(var(--stroke-subtle))] flex flex-col p-3 relative text-[hsl(var(--text-primary))] hover:border-[hsl(var(--stroke-default))] transition-colors",
           data.completed ? "opacity-60" : "opacity-100"
         )}
       >
@@ -78,14 +78,14 @@ export function RoadmapNode({ data }: NodeProps<RoadmapNodeType>) {
             }}
           >
             {data.completed ? (
-              <CheckCircle2 className="w-5 h-5 text-green-500" />
+              <CheckCircle2 className="w-5 h-5 text-[hsl(var(--success))]" />
             ) : (
               <div className="w-4 h-4 border-2 border-muted-foreground/50 rounded-full hover:border-primary transition-colors" />
             )}
           </button>
         </div>
         
-        <p className="line-clamp-2 text-[13px] leading-[1.5] text-zinc-400 mb-3">
+        <p className="line-clamp-2 text-[13px] leading-[1.5] text-[hsl(var(--text-secondary))] mb-3">
           {data.description}
         </p>
         

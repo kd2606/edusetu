@@ -30,16 +30,16 @@ const categoryIcons = {
 };
 
 const priorityColors = {
-  critical: 'bg-red-500/10 text-red-500 hover:bg-red-500/20',
-  high: 'bg-orange-500/10 text-orange-500 hover:bg-orange-500/20',
-  medium: 'bg-blue-500/10 text-blue-500 hover:bg-blue-500/20',
+  critical: 'bg-[hsl(var(--danger)/0.1)] text-[hsl(var(--danger))] hover:bg-[hsl(var(--danger)/0.2)]',
+  high: 'bg-[hsl(var(--warning)/0.1)] text-[hsl(var(--warning))] hover:bg-[hsl(var(--warning)/0.2)]',
+  medium: 'bg-[hsl(var(--accent)/0.1)] text-accent hover:bg-[hsl(var(--accent)/0.2)]',
 };
 
 const getResourceIcon = (type: string) => {
   const t = type.toLowerCase();
-  if (t.includes('video') || t.includes('youtube')) return <Video className="w-5 h-5 text-red-500" />;
-  if (t.includes('article') || t.includes('doc') || t.includes('book')) return <FileText className="w-5 h-5 text-blue-500" />;
-  return <LinkIcon className="w-5 h-5 text-zinc-400" />;
+  if (t.includes('video') || t.includes('youtube')) return <Video className="w-5 h-5 text-[hsl(var(--danger))]" />;
+  if (t.includes('article') || t.includes('doc') || t.includes('book')) return <FileText className="w-5 h-5 text-accent" />;
+  return <LinkIcon className="w-5 h-5 text-[hsl(var(--text-muted))]" />;
 };
 
 export function NodeDetailsSheet({ isOpen, onOpenChange, node, onVideosFetched }: NodeDetailsSheetProps) {
@@ -129,7 +129,7 @@ export function NodeDetailsSheet({ isOpen, onOpenChange, node, onVideosFetched }
 
   return (
     <Sheet open={isOpen} onOpenChange={onOpenChange}>
-      <SheetContent side="right" className="w-[400px] sm:w-[540px] overflow-y-auto bg-black/60 backdrop-blur-2xl border-l border-white/[0.06]">
+      <SheetContent side="right" className="w-[400px] sm:w-[540px] overflow-y-auto bg-[hsl(var(--bg-surface))] backdrop-blur-2xl border-l border-[hsl(var(--stroke-subtle))]">
         <SheetHeader className="mb-6 mt-4">
           <SheetTitle className="text-2xl font-bold tracking-[-0.02em] text-foreground">
             {node.label}
@@ -158,19 +158,19 @@ export function NodeDetailsSheet({ isOpen, onOpenChange, node, onVideosFetched }
             <button 
               onClick={handleExplain}
               disabled={isStreaming}
-              className="mt-4 flex items-center gap-2 text-sm text-white/80 hover:text-white bg-white/[0.04] border border-white/[0.06] hover:bg-white/[0.08] px-3 py-1.5 rounded-lg transition-all active:scale-[0.98] disabled:opacity-50 disabled:cursor-not-allowed"
+              className="mt-4 flex items-center gap-2 text-sm text-[hsl(var(--text-secondary))] hover:text-[hsl(var(--text-primary))] bg-[hsl(var(--bg-glass)/0.4)] border border-[hsl(var(--stroke-subtle))] hover:bg-[hsl(var(--bg-elevated))] px-3 py-1.5 rounded-lg transition-all active:scale-[0.98] disabled:opacity-50 disabled:cursor-not-allowed shadow-rim"
             >
               ✨ Explain Concept
             </button>
             
             {(isStreaming || aiExplanation) && (
-              <div className="mt-3 p-4 bg-white/[0.02] border border-white/[0.08] rounded-xl text-[13px] leading-relaxed text-zinc-300">
+              <div className="mt-3 p-4 bg-[hsl(var(--bg-surface))] border border-[hsl(var(--stroke-default))] rounded-xl text-[13px] leading-relaxed text-[hsl(var(--text-secondary))] shadow-rim">
                 {aiExplanation}
                 {isStreaming && !aiExplanation && (
                   <span className="animate-pulse">Thinking...</span>
                 )}
                 {isStreaming && aiExplanation && (
-                  <span className="inline-block w-1.5 h-4 ml-1 bg-white/60 animate-pulse align-middle" />
+                  <span className="inline-block w-1.5 h-4 ml-1 bg-accent/60 animate-pulse align-middle" />
                 )}
               </div>
             )}
@@ -188,7 +188,7 @@ export function NodeDetailsSheet({ isOpen, onOpenChange, node, onVideosFetched }
                     key={idx}
                     whileHover={{ scale: 1.02, x: 2 }}
                     whileTap={{ scale: 0.98 }}
-                    className="flex items-center gap-4 p-4 bg-white/[0.02] border border-white/[0.05] hover:bg-white/[0.04] transition-all rounded-2xl shadow-sm"
+                    className="flex items-center gap-4 p-4 bg-[hsl(var(--bg-surface))] border border-[hsl(var(--stroke-subtle))] hover:border-[hsl(var(--stroke-default))] transition-all rounded-lg shadow-rim"
                   >
                     <div className="p-2 rounded-lg bg-background border shadow-sm flex-shrink-0">
                       {getResourceIcon(resource.type)}
@@ -250,9 +250,9 @@ export function NodeDetailsSheet({ isOpen, onOpenChange, node, onVideosFetched }
                     key={v.videoId}
                     initial={{ opacity: 0, y: 8 }}
                     animate={{ opacity: 1, y: 0 }}
-                    className="overflow-hidden bg-white/[0.02] border border-white/[0.05] hover:bg-white/[0.04] transition-all rounded-2xl shadow-sm"
+                    className="overflow-hidden bg-[hsl(var(--bg-surface))] border border-[hsl(var(--stroke-subtle))] hover:border-[hsl(var(--stroke-default))] transition-all rounded-lg shadow-rim"
                   >
-                    <div className="relative w-full aspect-video rounded-t-2xl overflow-hidden bg-black/20">
+                    <div className="relative w-full aspect-video rounded-t-lg overflow-hidden bg-[hsl(var(--bg-base))]">
                       <iframe
                         src={`https://www.youtube-nocookie.com/embed/${v.videoId}?rel=0`}
                         title={v.title}

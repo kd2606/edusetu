@@ -14,12 +14,16 @@ export async function AuthButton() {
   return (
     <div className="flex items-center gap-3">
       <Link href="/login">
-        <Button className="bg-transparent hover:bg-white/[0.04] text-white/80 hover:text-white transition-all" size="sm" variant="ghost">
+        <Button className="bg-transparent hover:bg-[hsl(var(--bg-elevated))] text-[hsl(var(--text-secondary))] hover:text-[hsl(var(--text-primary))] transition-all" size="sm" variant="ghost">
           Log In
         </Button>
       </Link>
       <Link href="/login">
-        <Button className="bg-white text-black hover:bg-zinc-200 active:scale-[0.98] transition-all font-medium" size="sm">
+        <Button
+          className="rounded-full h-9 px-5 text-white font-medium shadow-[0_1px_0_0_hsl(0_0%_100%/0.25)_inset] shadow-glow-sm hover:shadow-glow-md hover:-translate-y-px active:scale-[0.98] transition-all duration-150"
+          style={{ background: 'var(--grad-btn)' }}
+          size="sm"
+        >
           Sign Up
         </Button>
       </Link>
