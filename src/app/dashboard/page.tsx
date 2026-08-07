@@ -3,8 +3,20 @@
 import { SavedRoadmaps } from '@/components/saved-roadmaps';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Target, Trophy, Flame } from 'lucide-react';
+import { useEffect, useState } from 'react';
+import { getProfile } from '@/app/actions';
+import { getLevelFromXP } from '@/lib/utils';
 
 export default function DashboardPage() {
+  const [profile, setProfile] = useState<{ xp: number, current_streak: number, nodes_completed: number } | null>(null);
+
+  useEffect(() => {
+    getProfile().then(data => {
+      if (data) setProfile(data);
+    });
+  }, []);
+
+  const levelInfo = profile ? getLevelFromXP(profile.xp) : { level: 1, title: 'Novice' };
   return (
     <div className="space-y-8">
       <div>
@@ -20,7 +32,7 @@ export default function DashboardPage() {
             <Flame className="w-4 h-4 text-progress" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold text-on-surface">3 Days</div>
+            <div className="text-2xl font-bold text-on-surface">{profile ? profile.current_streak : 0} Days</div>
           </CardContent>
         </Card>
         
@@ -30,8 +42,8 @@ export default function DashboardPage() {
             <Trophy className="w-4 h-4 text-primary" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold text-on-surface">1,250</div>
-            <p className="text-xs text-on-surface-muted mt-1">Level 2: Scholar</p>
+            <div className="text-2xl font-bold text-on-surface">{profile ? profile.xp.toLocaleString() : 0}</div>
+            <p className="text-xs text-on-surface-muted mt-1">Level {levelInfo.level}: {levelInfo.title}</p>
           </CardContent>
         </Card>
 
@@ -41,7 +53,7 @@ export default function DashboardPage() {
             <Target className="w-4 h-4 text-success" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold text-on-surface">12</div>
+            <div className="text-2xl font-bold text-on-surface">{profile ? profile.nodes_completed : 0}</div>
           </CardContent>
         </Card>
       </div>

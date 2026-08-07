@@ -18,7 +18,7 @@ import dagre from 'dagre';
 import { RoadmapNodeData, CachedYouTubeVideo } from './RoadmapNode';
 import { TopicNode } from './roadmap/topic-node';
 import { NodeDetailsSheet } from './node-details-sheet';
-import { updateRoadmapNodes } from '@/app/actions';
+import { updateRoadmapNodes, grantNodeCompletionXP } from '@/app/actions';
 import { toPng } from 'html-to-image';
 import { Download } from 'lucide-react';
 
@@ -84,8 +84,13 @@ export function RoadmapCanvas({ data }: RoadmapCanvasProps) {
       const nodesForDb = data.nodes.map(n => 
         n.id === nodeId ? { ...n, completed } : n
       );
-      // Fire and forget
+      // Fire and forget update
       updateRoadmapNodes(data.id, nodesForDb).catch(console.error);
+
+      // If it was marked as completed (not unchecked), grant XP
+      if (completed) {
+        grantNodeCompletionXP().catch(console.error);
+      }
     }
     
     // We update data.nodes by mutation or recreating it, but since React Flow uses the layouted nodes state, we should update the local setNodes directly.
