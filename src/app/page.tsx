@@ -89,10 +89,9 @@ export default function Home() {
                 initial={{ opacity: 0, y: 16 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.2 }}
-                className="text-display mb-6"
+                className="text-5xl md:text-7xl font-bold tracking-tighter leading-[1.1] mb-6 max-w-4xl mx-auto"
               >
                 <span className="text-grad-display">EduSetu.</span>{' '}
-                <br className="md:hidden" />
                 <span className="text-grad-accent">Every goal deserves a clear path.</span>
               </motion.h1>
 
@@ -101,7 +100,7 @@ export default function Home() {
                 initial={{ opacity: 0, y: 12 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.3 }}
-                className="text-base md:text-lg text-[hsl(var(--text-secondary))] max-w-xl mx-auto leading-relaxed mb-12 text-pretty"
+                className="text-base md:text-lg text-[hsl(var(--text-secondary))] max-w-2xl mx-auto leading-relaxed mb-12 text-balance"
               >
                 Where do you want to learn next? Whether you&apos;re navigating a school syllabus, cracking a competitive exam, or mastering a new skill, we dynamically map the exact steps to get you there.
               </motion.p>

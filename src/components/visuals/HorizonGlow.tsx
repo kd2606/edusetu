@@ -20,11 +20,9 @@ export function HorizonGlow({ intensity = 'full', className }: HorizonGlowProps)
   
   useEffect(() => {
     const handleMouseMove = (e: MouseEvent) => {
-      // Normalize mouse X position to a range between -1 and 1
       const normalizedX = (e.clientX / window.innerWidth) * 2 - 1;
       mouseX.set(normalizedX);
     };
-    
     window.addEventListener('mousemove', handleMouseMove);
     return () => window.removeEventListener('mousemove', handleMouseMove);
   }, [mouseX]);
@@ -38,61 +36,57 @@ export function HorizonGlow({ intensity = 'full', className }: HorizonGlowProps)
       )}
       data-horizon-glow
     >
-      {/* Layer 1 — Vignette base */}
+      {/* Layer 1 — Vignette base (very dark) */}
       <div
         className="absolute inset-0"
         style={{
-          background:
-            'radial-gradient(120% 80% at 50% 0%, hsl(222 50% 8%) 0%, hsl(var(--bg-base)) 60%)',
+          background: 'radial-gradient(ellipse at 50% -20%, hsl(222 40% 6%), hsl(var(--bg-base)) 70%)',
         }}
       />
 
-      {/* Layer 2 — The planet (only top ~8% visible) */}
+      {/* Layer 2 — The Horizon Arc (Flat ellipse instead of a giant sphere) */}
       <motion.div
-        className="absolute left-1/2 -translate-x-1/2 rounded-full"
+        className="absolute left-1/2 -translate-x-1/2"
         style={{
-          width: 'min(1900px, 210vw)',
-          aspectRatio: '1 / 1',
-          top: isFull ? '38%' : '55%',
+          width: '200vw',
+          height: '40vh',
+          top: isFull ? '60%' : '75%',
+          borderRadius: '100% 100% 0 0',
           background: 'hsl(var(--bg-base))',
           boxShadow: `
-            inset 0 2px 12px hsl(var(--accent-bright) / 0.55),
-            0 0 140px 24px hsl(var(--accent) / ${isFull ? '0.40' : '0.15'}),
-            0 0 400px 80px hsl(var(--accent-deep) / ${isFull ? '0.22' : '0.08'})
+            inset 0 4px 15px hsl(var(--accent-bright) / 0.8),
+            0 -10px 100px 20px hsl(var(--accent) / ${isFull ? '0.5' : '0.2'}),
+            0 -40px 300px 80px hsl(var(--accent-deep) / ${isFull ? '0.3' : '0.1'})
           `,
-          x: parallaxTilt, // very slight tilt
+          x: parallaxTilt,
         }}
       />
 
-      {/* Layer 3 — Atmospheric bloom */}
+      {/* Layer 3 — Atmospheric bloom (Wide soft wash of light) */}
       <motion.div
         className={cn(
           'absolute left-1/2 -translate-x-1/2 mix-blend-screen motion-safe:animate-breathe',
-          isFull ? 'blur-[120px] opacity-100' : 'blur-[80px] opacity-50'
+          isFull ? 'blur-[100px] opacity-100' : 'blur-[60px] opacity-50'
         )}
         style={{
-          width: '60vw',
-          height: '22vh',
-          top: isFull ? '34%' : '51%',
-          background: `hsl(var(--accent) / ${isFull ? '0.35' : '0.15'})`,
-          borderRadius: '50%',
-          // Parallax effect on bloom
+          width: '80vw',
+          height: '25vh',
+          top: isFull ? '55%' : '70%',
+          background: `radial-gradient(ellipse at top, hsl(var(--accent-bright) / ${isFull ? '0.6' : '0.2'}), transparent 70%)`,
           x: parallaxBloom,
         }}
       />
 
-      {/* Layer 4 — Light shaft (vertical cone above arc apex) */}
+      {/* Layer 4 — Volumetric Light Shaft (Soft conic gradient instead of sharp polygon) */}
       {isFull && (
         <motion.div
-          className="absolute left-1/2 -translate-x-1/2 mix-blend-screen blur-[48px] opacity-50 motion-safe:animate-breathe"
+          className="absolute left-1/2 -translate-x-1/2 mix-blend-screen motion-safe:animate-breathe"
           style={{
-            width: '12vw',
-            height: '35vh',
-            top: '5%',
-            clipPath: 'polygon(35% 100%, 50% 0%, 65% 100%)',
-            background:
-              'linear-gradient(to top, hsl(var(--accent-bright) / 0.28), transparent 70%)',
-            // Parallax effect on shaft (moves slightly opposite/more to give 3D depth)
+            width: '100vw',
+            height: '100vh',
+            top: '0%',
+            background: 'conic-gradient(from 180deg at 50% 100%, transparent 40%, hsl(var(--accent-bright) / 0.15) 50%, transparent 60%)',
+            maskImage: 'linear-gradient(to top, black 20%, transparent 80%)',
             x: parallaxShaft,
           }}
         />
@@ -102,7 +96,7 @@ export function HorizonGlow({ intensity = 'full', className }: HorizonGlowProps)
       <div
         className={cn(
           'absolute inset-0',
-          isFull ? 'opacity-[0.22]' : 'opacity-[0.10]'
+          isFull ? 'opacity-[0.3]' : 'opacity-[0.15]'
         )}
         style={{
           backgroundImage: `
@@ -114,9 +108,7 @@ export function HorizonGlow({ intensity = 'full', className }: HorizonGlowProps)
             radial-gradient(1px 1px at 55% 85%, hsl(var(--text-primary)) 0.4px, transparent 0)
           `,
           backgroundSize: '350px 350px, 250px 250px, 400px 400px, 300px 300px, 450px 450px, 320px 320px',
-          maskImage: isFull
-            ? 'linear-gradient(to bottom, black 0%, black 35%, transparent 65%)'
-            : 'linear-gradient(to bottom, black 0%, transparent 40%)',
+          maskImage: 'radial-gradient(circle at 50% 50%, black 20%, transparent 80%)',
         }}
       />
     </div>

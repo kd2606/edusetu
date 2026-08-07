@@ -39,7 +39,7 @@ export function GeneratorForm({ onGenerate, isLoading }: GeneratorFormProps) {
   return (
     <Card
       data-glass
-      className="w-full max-w-2xl mx-auto p-8 sm:p-12 bg-[hsl(var(--bg-glass)/0.6)] backdrop-blur-xl border border-[hsl(var(--stroke-default))] shadow-rim shadow-card rounded-2xl focus-within:border-[hsl(var(--stroke-accent))] focus-within:shadow-glow-sm transition-all duration-300"
+      className="w-full max-w-2xl mx-auto p-8 sm:p-12 bg-black/40 backdrop-blur-2xl border border-white/5 border-t-white/20 shadow-[0_8px_32px_0_rgba(0,0,0,0.5),inset_0_1px_0_0_rgba(255,255,255,0.1)] rounded-2xl focus-within:border-[hsl(var(--stroke-accent))] focus-within:shadow-[0_8px_32px_0_hsl(var(--accent)/0.15)] transition-all duration-300 relative z-20"
     >
       <CardHeader>
         <CardTitle className="text-2xl font-semibold tracking-tight text-[hsl(var(--text-primary))]">Create your Roadmap</CardTitle>
