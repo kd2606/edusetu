@@ -67,7 +67,7 @@ export default function DashboardPage() {
   }
 
   return (
-    <div className="space-y-12">
+    <div className="p-6 md:p-8 space-y-12 max-w-6xl mx-auto w-full">
       <div>
         <h1 className="text-3xl font-bold tracking-tight text-on-surface">Dashboard</h1>
         <p className="text-on-surface-variant mt-2">Welcome back! Here is your learning progress.</p>

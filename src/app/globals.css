@@ -145,13 +145,24 @@
 }
 
 @layer base {
-  * { border-color: var(--color-outline-variant); }
   body {
     background: var(--color-background);
     color: var(--color-on-surface);
     font-family: var(--font-sans, Inter, sans-serif);
     -webkit-font-smoothing: antialiased;
     text-rendering: optimizeLegibility;
+  }
+
+  /* Hide scrollbar for Chrome, Safari and Opera */
+  ::-webkit-scrollbar {
+    display: none;
+  }
+
+  /* Hide scrollbar for IE, Edge and Firefox */
+  * {
+    -ms-overflow-style: none;  /* IE and Edge */
+    scrollbar-width: none;  /* Firefox */
+    border-color: var(--color-outline-variant); 
   }
   
   :where(a, button, input, select, textarea, [tabindex]):focus-visible {
