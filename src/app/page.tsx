@@ -9,6 +9,8 @@ import { motion } from 'framer-motion';
 import { Sheet, SheetContent, SheetHeader, SheetTitle } from '@/components/ui/sheet';
 import { ErrorBoundary } from '@/components/error-boundary';
 import { HorizonGlow } from '@/components/visuals/HorizonGlow';
+import { FloatingParticles } from '@/components/visuals/FloatingParticles';
+import { SpotlightCard } from '@/components/ui/spotlight-card';
 import { Sparkles } from 'lucide-react';
 
 export default function Home() {
@@ -63,8 +65,9 @@ export default function Home() {
 
       {!roadmapData ? (
         <div className="w-full flex flex-col items-center">
-          {/* Hero Section with HorizonGlow */}
-          <section className="w-full relative overflow-hidden">
+          {/* Hero Section with HorizonGlow & Particles */}
+          <section className="w-full relative overflow-hidden group">
+            <FloatingParticles count={40} />
             <HorizonGlow intensity="full" />
             
             <div className="relative z-10 w-full max-w-3xl mx-auto px-6 py-20 md:py-32 flex flex-col items-center text-center">
@@ -108,8 +111,10 @@ export default function Home() {
                 initial={{ opacity: 0, y: 16 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.4 }}
-                className="w-full"
+                className="w-full relative group/form"
               >
+                {/* Expanding focus glow behind the form */}
+                <div className="absolute -inset-1 bg-[hsl(var(--accent-bright))] blur-2xl opacity-0 group-focus-within/form:opacity-20 transition-opacity duration-500 rounded-full pointer-events-none" />
                 <GeneratorForm onGenerate={handleGenerate} isLoading={isLoading} />
                 {error && <p className="text-semantic-danger mt-4 text-center">{error}</p>}
               </motion.div>
@@ -128,17 +133,17 @@ export default function Home() {
                 { title: 'Exam Aspirants', desc: 'Crack competitive exams like JEE, NEET, or UPSC with structured timelines and curated, high-quality resources.' },
                 { title: 'Skill Builders', desc: 'Self-taught developers, designers, and professionals looking to master a new skill with industry-standard roadmaps.' },
               ].map((card) => (
-                <div key={card.title} className="bg-[hsl(var(--bg-surface))] border border-[hsl(var(--stroke-subtle))] p-6 rounded-lg shadow-rim hover:border-[hsl(var(--stroke-default))] transition-colors duration-200">
-                  <h3 className="text-xl font-semibold text-[hsl(var(--text-primary))] mb-3">{card.title}</h3>
-                  <p className="text-[hsl(var(--text-secondary))] text-sm leading-relaxed">{card.desc}</p>
-                </div>
+                <SpotlightCard key={card.title} className="p-6">
+                  <h3 className="text-xl font-semibold text-[hsl(var(--text-primary))] mb-3 relative z-10">{card.title}</h3>
+                  <p className="text-[hsl(var(--text-secondary))] text-sm leading-relaxed relative z-10">{card.desc}</p>
+                </SpotlightCard>
               ))}
             </div>
           </section>
 
           {/* About Us Section */}
           <section className="w-full max-w-5xl px-6 py-20 mb-20 border-t border-[hsl(var(--stroke-subtle))]">
-            <div className="bg-[hsl(var(--bg-surface))] border border-[hsl(var(--stroke-subtle))] p-8 md:p-12 rounded-2xl relative overflow-hidden shadow-rim shadow-card">
+            <SpotlightCard className="p-8 md:p-12 shadow-card" spotlightColor="rgba(255, 255, 255, 0.08)">
               <div className="relative z-10">
                 <h2 className="text-3xl font-bold text-[hsl(var(--text-primary))] mb-6">Why EduSetu?</h2>
                 <p className="text-[hsl(var(--text-secondary))] leading-relaxed mb-8 max-w-3xl text-lg">
@@ -162,7 +167,7 @@ export default function Home() {
                   </a>
                 </div>
               </div>
-            </div>
+            </SpotlightCard>
           </section>
         </div>
       ) : (
