@@ -2,18 +2,18 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useState } from "react";
 import {
   LayoutGrid, Route, Compass, BarChart3, Settings,
   Plus, Flame, Menu, GraduationCap
 } from "lucide-react";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { getProfile } from "@/app/actions";
 import { getLevelFromXP } from "@/lib/utils";
+import { createClient } from "@/utils/supabase/client";
 
-const NAV = [
+const NAV_BASE = [
   { label: "Overview",    href: "/dashboard",           icon: LayoutGrid },
-  { label: "My Roadmaps", href: "/dashboard/roadmaps",  icon: Route, count: 4 },
+  { label: "My Roadmaps", href: "/dashboard/roadmaps",  icon: Route },
   { label: "Explore",     href: "/dashboard/explore",   icon: Compass },
   { label: "Progress",    href: "/dashboard/progress",  icon: BarChart3 },
 ];
@@ -22,10 +22,16 @@ export function Sidebar() {
   const pathname = usePathname();
   const [expanded, setExpanded] = useState(true);
   const [profile, setProfile] = useState<{ xp: number, current_streak: number } | null>(null);
+  const [roadmapCount, setRoadmapCount] = useState<number | null>(null);
 
   useEffect(() => {
     getProfile().then(data => {
       if (data) setProfile(data);
+    });
+    
+    const supabase = createClient();
+    supabase.from('roadmaps').select('*', { count: 'exact', head: true }).then(({ count }) => {
+      if (count !== null) setRoadmapCount(count);
     });
   }, [pathname]); // Refresh when path changes
 
@@ -80,8 +86,9 @@ export function Sidebar() {
       </div>
 
       <nav className="flex-1 space-y-1 overflow-y-auto px-3 py-3">
-        {NAV.map(({ label, href, icon: Icon, count }) => {
+        {NAV_BASE.map(({ label, href, icon: Icon }) => {
           const active = pathname === href;
+          const count = label === "My Roadmaps" ? roadmapCount : null;
           return (
             <Link
               key={href}

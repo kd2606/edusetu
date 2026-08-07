@@ -4,14 +4,16 @@ import { useEffect, useState } from 'react';
 import { createClient } from '@/utils/supabase/client';
 import { Card } from '@/components/ui/card';
 import { Loader2, Route } from 'lucide-react';
+import { useRouter } from 'next/navigation';
 import type { RoadmapData } from '@/components/roadmap-canvas';
 
 type SavedRoadmapsProps = {
-  onSelectRoadmap: (data: RoadmapData) => void;
+  onSelectRoadmap?: (data: RoadmapData) => void;
   onRoadmapsLoaded?: (count: number) => void;
 };
 
 export function SavedRoadmaps({ onSelectRoadmap, onRoadmapsLoaded }: SavedRoadmapsProps) {
+  const router = useRouter();
   const [roadmaps, setRoadmaps] = useState<RoadmapData[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -69,7 +71,13 @@ export function SavedRoadmaps({ onSelectRoadmap, onRoadmapsLoaded }: SavedRoadma
         <Card 
           key={rm.id} 
           className="p-4 cursor-pointer bg-surface hover:bg-surface-high transition-all duration-300 border border-outline shadow-card backdrop-blur-2xl rounded-2xl group"
-          onClick={() => onSelectRoadmap({ id: rm.id, title: rm.title, estimated_duration: "From Library", nodes: rm.nodes, edges: rm.edges })}
+          onClick={() => {
+            if (onSelectRoadmap) {
+              onSelectRoadmap({ id: rm.id, title: rm.title, estimated_duration: "From Library", nodes: rm.nodes, edges: rm.edges });
+            } else {
+              router.push(`/dashboard/roadmap/${rm.id}`);
+            }
+          }}
         >
           <div className="flex items-start gap-3">
             <div className="p-2 rounded-md bg-primary/10 text-primary">

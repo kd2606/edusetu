@@ -6,14 +6,9 @@ import { Target, Trophy, Flame } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import { getProfile } from '@/app/actions';
 import { getLevelFromXP } from '@/lib/utils';
-import { RoadmapCanvas } from '@/components/roadmap-canvas';
-import type { RoadmapData } from '@/components/roadmap-canvas';
-import { ErrorBoundary } from '@/components/error-boundary';
-import { motion } from 'framer-motion';
 
 export default function DashboardPage() {
   const [profile, setProfile] = useState<{ xp: number, current_streak: number, nodes_completed: number } | null>(null);
-  const [roadmapData, setRoadmapData] = useState<RoadmapData | null>(null);
 
   useEffect(() => {
     getProfile().then(data => {
@@ -22,23 +17,6 @@ export default function DashboardPage() {
   }, []);
 
   const levelInfo = profile ? getLevelFromXP(profile.xp) : { level: 1, title: 'Novice' };
-
-  if (roadmapData) {
-    return (
-      <div className="w-full h-[calc(100svh-var(--header-h))] relative overflow-hidden -mt-8">
-        <motion.button 
-          whileTap={{ scale: 0.98 }}
-          onClick={() => setRoadmapData(null)}
-          className="absolute bottom-6 left-1/2 -translate-x-1/2 z-50 rounded-full h-11 px-6 font-medium text-on-primary bg-primary hover:bg-primary-hover shadow-e2 transition-all duration-150 tracking-[-0.01em]"
-        >
-          Back to Dashboard
-        </motion.button>
-        <ErrorBoundary>
-          <RoadmapCanvas data={roadmapData} />
-        </ErrorBoundary>
-      </div>
-    );
-  }
 
   return (
     <div className="p-6 md:p-8 space-y-12 max-w-6xl mx-auto w-full">
@@ -87,9 +65,7 @@ export default function DashboardPage() {
       <div>
         <h2 className="text-xl font-semibold tracking-tight text-on-surface mb-6">Your Roadmaps</h2>
         <div className="bg-surface border border-outline-variant rounded-xl max-h-[400px] overflow-y-auto">
-          <SavedRoadmaps onSelectRoadmap={(data) => {
-            setRoadmapData(data);
-          }} />
+          <SavedRoadmaps />
         </div>
       </div>
     </div>
