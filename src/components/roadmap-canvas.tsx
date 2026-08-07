@@ -15,14 +15,15 @@ import {
 } from '@xyflow/react';
 import '@xyflow/react/dist/style.css';
 import dagre from 'dagre';
-import { RoadmapNode, RoadmapNodeData, CachedYouTubeVideo } from './RoadmapNode';
+import { RoadmapNodeData, CachedYouTubeVideo } from './RoadmapNode';
+import { TopicNode } from './roadmap/topic-node';
 import { NodeDetailsSheet } from './node-details-sheet';
 import { updateRoadmapNodes } from '@/app/actions';
 import { toPng } from 'html-to-image';
 import { Download } from 'lucide-react';
 
 const nodeTypes = {
-  roadmapNode: RoadmapNode,
+  roadmapNode: TopicNode,
 };
 
 export type RoadmapData = {
@@ -97,6 +98,13 @@ export function RoadmapCanvas({ data }: RoadmapCanvasProps) {
       position: { x: 0, y: 0 },
       data: {
         id: n.id,
+        title: n.label,
+        module: n.category,
+        status: n.completed ? 'completed' : 'available',
+        estMinutes: n.time_allocation,
+        videoCount: n.resources ? n.resources.length : 0,
+        
+        // Pass original data properties so the node sheet still works
         label: n.label,
         description: n.description,
         category: n.category,
@@ -246,10 +254,10 @@ export function RoadmapCanvas({ data }: RoadmapCanvasProps) {
   }, [nodes, data.id, setNodes]);
 
   return (
-    <div className="w-full h-full min-h-screen bg-[hsl(var(--bg-base))] relative">
-      <div data-glass className="absolute top-4 left-4 z-10 bg-[hsl(var(--bg-glass)/0.65)] backdrop-blur-xl border border-[hsl(var(--stroke-default))] rounded-lg p-4 shadow-rim shadow-card">
-        <h2 className="font-bold text-xl text-[hsl(var(--text-primary))]">{data.title}</h2>
-        <p className="text-[hsl(var(--text-secondary))] text-sm">Estimated Duration: {data.estimated_duration}</p>
+    <div className="w-full h-full relative">
+      <div className="absolute top-4 left-4 z-10 bg-surface border border-outline-variant rounded-xl p-4 shadow-e2">
+        <h2 className="font-bold text-xl text-on-surface">{data.title}</h2>
+        <p className="text-on-surface-muted text-sm mt-1">Estimated Duration: {data.estimated_duration}</p>
       </div>
       <ReactFlow
         nodes={nodes}
@@ -259,16 +267,17 @@ export function RoadmapCanvas({ data }: RoadmapCanvasProps) {
         onNodeClick={onNodeClick}
         nodeTypes={nodeTypes}
         fitView
-        colorMode="dark"
-        defaultEdgeOptions={{ type: 'smoothstep', style: { stroke: 'hsl(217 30% 45% / 0.25)', strokeWidth: 1.5 } }}
+        fitViewOptions={{ padding: 0.35 }}
+        minZoom={0.25}
+        maxZoom={1.5}
+        defaultEdgeOptions={{ type: 'smoothstep', animated: false }}
       >
-        <Background variant={BackgroundVariant.Dots} gap={22} size={1.4} color="hsl(217 30% 45% / 0.20)" />
-        <Controls />
+        <Background variant={BackgroundVariant.Dots} gap={22} size={1.4} />
+        <Controls showInteractive={false} position="bottom-right" />
         <Panel position="top-right">
           <button
             onClick={onDownload}
-            className="flex items-center gap-2 rounded-full h-9 px-4 text-white text-sm font-medium shadow-[0_1px_0_0_hsl(0_0%_100%/0.25)_inset] shadow-glow-sm hover:shadow-glow-md hover:-translate-y-px active:scale-[0.98] transition-all duration-150"
-            style={{ background: 'var(--grad-btn)' }}
+            className="flex items-center gap-2 rounded-full h-10 px-4 bg-surface text-on-surface-variant font-medium shadow-e1 hover:shadow-e2 hover:-translate-y-px active:scale-[0.98] border border-outline-variant transition-all duration-150"
           >
             <Download className="w-4 h-4" />
             Download
