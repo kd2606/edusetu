@@ -3,7 +3,7 @@
 import { useState, useTransition, useRef, useEffect } from 'react';
 import { Avatar, AvatarFallback } from '@/components/ui/avatar';
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from '@/components/ui/dialog';
-import { BookMarked, Info, LogOut } from 'lucide-react';
+import { BookMarked, Info, LogOut, LayoutDashboard } from 'lucide-react';
 import { signout } from '@/app/login/actions';
 
 interface ProfileMenuProps {
@@ -19,7 +19,7 @@ export function ProfileMenu({ email }: ProfileMenuProps) {
   const initials = email.substring(0, 2).toUpperCase();
 
   const handleOpenHistory = () => {
-    document.dispatchEvent(new CustomEvent('open-history'));
+    window.location.href = '/dashboard';
     setIsDropdownOpen(false);
   };
 
@@ -100,6 +100,10 @@ export function ProfileMenu({ email }: ProfileMenuProps) {
             </div>
             
             <div className="py-1">
+              <button role="menuitem" onClick={() => { window.location.href = '/dashboard'; setIsDropdownOpen(false); }} className="w-full text-left px-3 py-2 text-sm hover:bg-[hsl(var(--bg-elevated))] focus:bg-[hsl(var(--bg-elevated))] focus:outline-none flex items-center transition-colors">
+                <LayoutDashboard className="mr-2 h-4 w-4" />
+                <span>Dashboard</span>
+              </button>
               <button role="menuitem" onClick={handleOpenHistory} className="w-full text-left px-3 py-2 text-sm hover:bg-[hsl(var(--bg-elevated))] focus:bg-[hsl(var(--bg-elevated))] focus:outline-none flex items-center transition-colors">
                 <BookMarked className="mr-2 h-4 w-4" />
                 <span>My Roadmaps</span>

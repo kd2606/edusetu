@@ -61,9 +61,12 @@ export function GeneratorForm({ onGenerate, isLoading }: GeneratorFormProps) {
                   <SelectValue placeholder="e.g. Tech Skill or Competitive Exam" />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="Tech Skill">Tech Skill</SelectItem>
-                  <SelectItem value="Competitive Exam">Competitive Exam</SelectItem>
-                  <SelectItem value="Language Learning">Language Learning</SelectItem>
+                  <SelectItem value="10th Board (CBSE/ICSE/State)">10th Board (CBSE/ICSE/State)</SelectItem>
+                  <SelectItem value="12th Board (Science/Comm/Arts)">12th Board (Science/Comm/Arts)</SelectItem>
+                  <SelectItem value="JEE (Mains/Advanced)">JEE (Mains/Advanced)</SelectItem>
+                  <SelectItem value="NEET">NEET</SelectItem>
+                  <SelectItem value="UPSC / State PSC">UPSC / State PSC</SelectItem>
+                  <SelectItem value="Tech Skill / Coding">Tech Skill / Coding</SelectItem>
                   <SelectItem value="Other">Other</SelectItem>
                 </SelectContent>
               </Select>

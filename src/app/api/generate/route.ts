@@ -19,6 +19,10 @@ export async function POST(req: Request) {
 
     const prompt = `
 You are an expert learning pathway generator. Generate a structured learning roadmap.
+If the Domain relates to Indian Education (e.g. 10th/12th Board, JEE, NEET, UPSC), you MUST heavily contextualize the output for an Indian student:
+- Recommend standard Indian textbooks (e.g. NCERT, RD Sharma, HC Verma, Laxmikanth).
+- Recommend popular high-quality Indian YouTube channels (e.g. PhysicsWallah, Unacademy, Apni Kaksha, Aman Dhattarwal, Let's Crack UPSC, etc.).
+- Structure the timeline according to typical Indian academic calendars if applicable.
 You must return ONLY raw JSON matching the exact schema below. No markdown, no extra text.
 
 Schema:
