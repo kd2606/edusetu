@@ -32,7 +32,7 @@ export function SpotlightCard({
   return (
     <div
       className={cn(
-        'group relative overflow-hidden rounded-2xl bg-[hsl(var(--bg-surface))] border border-[hsl(var(--stroke-subtle))] shadow-rim transition-colors duration-300',
+        'group relative overflow-hidden rounded-2xl bg-surface border border-outline-variant shadow-rim transition-colors duration-300',
         className
       )}
       onMouseMove={handleMouseMove}
@@ -54,11 +54,11 @@ export function SpotlightCard({
       
       {/* 3D tilt effect on children container */}
       <motion.div 
-        className="relative z-10 h-full w-full bg-[hsl(var(--bg-surface))] rounded-[15px]"
+        className="relative z-10 h-full w-full bg-surface rounded-[15px]"
         whileHover={{ scale: 1.01 }}
         transition={{ type: 'spring', stiffness: 300, damping: 20 }}
       >
-        <div className="absolute inset-0 rounded-[15px] bg-[hsl(var(--bg-glass)/0.2)] pointer-events-none" />
+        <div className="absolute inset-0 rounded-[15px] bg-surface-container pointer-events-none" />
         {children}
       </motion.div>
     </div>

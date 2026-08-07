@@ -64,11 +64,11 @@ export function SavedRoadmaps({ onSelectRoadmap, onRoadmapsLoaded }: SavedRoadma
 
   return (
     <div className="w-full space-y-2 p-4 max-h-screen overflow-y-auto">
-      <h3 className="text-sm font-semibold text-[hsl(var(--text-primary))] uppercase tracking-wider mb-4 px-2">Your Roadmaps</h3>
+      <h3 className="text-sm font-semibold text-on-surface uppercase tracking-wider mb-4 px-2">Your Roadmaps</h3>
       {roadmaps.map((rm) => (
         <Card 
           key={rm.id} 
-          className="p-4 cursor-pointer bg-[hsl(var(--bg-surface))] hover:bg-[hsl(var(--bg-elevated))] transition-all duration-300 border border-[hsl(var(--stroke-default))] shadow-card backdrop-blur-2xl rounded-2xl group"
+          className="p-4 cursor-pointer bg-surface hover:bg-surface-high transition-all duration-300 border border-outline shadow-card backdrop-blur-2xl rounded-2xl group"
           onClick={() => onSelectRoadmap({ id: rm.id, title: rm.title, estimated_duration: "From Library", nodes: rm.nodes, edges: rm.edges })}
         >
           <div className="flex items-start gap-3">

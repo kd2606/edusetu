@@ -34,14 +34,14 @@ export class ErrorBoundary extends Component<Props, State> {
 
       return (
         <div className="w-full h-full min-h-[400px] flex flex-col items-center justify-center gap-4 text-center p-8">
-          <div className="w-16 h-16 rounded-full bg-[hsl(var(--danger)/0.1)] flex items-center justify-center">
-            <svg className="w-8 h-8 text-[hsl(var(--danger))]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+          <div className="w-16 h-16 rounded-full bg-error-container flex items-center justify-center">
+            <svg className="w-8 h-8 text-error" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
               <path strokeLinecap="round" strokeLinejoin="round" d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126ZM12 15.75h.007v.008H12v-.008Z" />
             </svg>
           </div>
           <div>
-            <h3 className="text-lg font-semibold text-[hsl(var(--text-primary))] mb-1">Something went wrong</h3>
-            <p className="text-sm text-[hsl(var(--text-secondary))] max-w-md">
+            <h3 className="text-lg font-semibold text-on-surface mb-1">Something went wrong</h3>
+            <p className="text-sm text-on-surface-variant max-w-md">
               The roadmap failed to render. This might be caused by an unusual layout. Please try generating a new roadmap.
             </p>
           </div>

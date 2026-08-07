@@ -81,7 +81,7 @@ export default function Home() {
                 <Sparkles className="w-3.5 h-3.5 text-accent-bright" />
                 <span className="text-xs text-on-surface-variant">AI-Powered Learning Paths</span>
                 {/* Shimmer sweep */}
-                <div className="absolute inset-0 motion-safe:animate-shimmer" style={{ background: 'linear-gradient(90deg, transparent 0%, hsl(var(--accent-bright) / 0.08) 50%, transparent 100%)' }} />
+                <div className="absolute inset-0 motion-safe:animate-shimmer" style={{ background: 'linear-gradient(90deg, transparent 0%, color-mix(in srgb, var(--color-primary-container) 8%, transparent) 50%, transparent 100%)' }} />
               </motion.div>
 
               {/* H1 — Display type */}
@@ -113,7 +113,7 @@ export default function Home() {
                 className="w-full relative group/form"
               >
                 {/* Expanding focus glow behind the form */}
-                <div className="absolute -inset-1 bg-[hsl(var(--accent-bright))] blur-2xl opacity-0 group-focus-within/form:opacity-20 transition-opacity duration-500 rounded-full pointer-events-none" />
+                <div className="absolute -inset-1 bg-primary-container blur-2xl opacity-0 group-focus-within/form:opacity-20 transition-opacity duration-500 rounded-full pointer-events-none" />
                 <GeneratorForm onGenerate={handleGenerate} isLoading={isLoading} />
                 {error && <p className="text-semantic-danger mt-4 text-center">{error}</p>}
               </motion.div>

@@ -40,10 +40,10 @@ export default function ResourcesPage() {
     <div className="space-y-8">
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-3xl font-bold tracking-tight text-[hsl(var(--text-primary))]">Digital Library</h1>
-          <p className="text-[hsl(var(--text-secondary))] mt-2">Curated books, PDFs, and official documentation.</p>
+          <h1 className="text-3xl font-bold tracking-tight text-on-surface">Digital Library</h1>
+          <p className="text-on-surface-variant mt-2">Curated books, PDFs, and official documentation.</p>
         </div>
-        <Button variant="outline" className="gap-2 border-[hsl(var(--stroke-default))]">
+        <Button variant="outline" className="gap-2 border-outline">
           <Download className="w-4 h-4" />
           Upload Resource (Coming Soon)
         </Button>
@@ -51,25 +51,25 @@ export default function ResourcesPage() {
 
       <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
         {CURATED_RESOURCES.map((resource, i) => (
-          <Card key={i} className="bg-[hsl(var(--bg-glass)/0.4)] backdrop-blur-md border-[hsl(var(--stroke-subtle))] shadow-rim group hover:border-[hsl(var(--stroke-default))] transition-all">
+          <Card key={i} className="bg-surface border border-outline-variant shadow-e1 group hover:border-outline transition-all">
             <CardHeader className="pb-3">
               <div className="flex justify-between items-start mb-2">
-                <div className="p-2 bg-[hsl(var(--bg-elevated))] rounded-lg">
-                  {resource.type.includes('PDF') ? <FileText className="w-5 h-5 text-accent" /> : <BookOpen className="w-5 h-5 text-[hsl(var(--warning))]" />}
+                <div className="p-2 bg-surface-high rounded-lg">
+                  {resource.type.includes('PDF') ? <FileText className="w-5 h-5 text-primary" /> : <BookOpen className="w-5 h-5 text-progress" />}
                 </div>
-                <span className="text-[10px] font-medium px-2 py-1 bg-[hsl(var(--bg-elevated))] rounded-md text-[hsl(var(--text-muted))]">
+                <span className="text-[10px] font-medium px-2 py-1 bg-surface-high rounded-md text-on-surface-muted">
                   {resource.category}
                 </span>
               </div>
-              <CardTitle className="text-base font-semibold leading-tight text-[hsl(var(--text-primary))]">
+              <CardTitle className="text-base font-semibold leading-tight text-on-surface">
                 {resource.title}
               </CardTitle>
-              <CardDescription className="text-xs text-[hsl(var(--text-secondary))] mt-1">
+              <CardDescription className="text-xs text-on-surface-variant mt-1">
                 {resource.type} • {resource.size}
               </CardDescription>
             </CardHeader>
             <CardContent>
-              <Button className="w-full gap-2 bg-[hsl(var(--bg-elevated))] text-[hsl(var(--text-primary))] hover:bg-[hsl(var(--bg-surface))] border border-[hsl(var(--stroke-default))] shadow-sm" variant="secondary">
+              <Button className="w-full gap-2 bg-surface-high text-on-surface hover:bg-surface border border-outline shadow-sm" variant="secondary">
                 {resource.type.includes('External') ? (
                   <>Open Link <ExternalLink className="w-3 h-3 ml-1" /></>
                 ) : (

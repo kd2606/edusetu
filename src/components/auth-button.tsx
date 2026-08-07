@@ -14,7 +14,7 @@ export async function AuthButton() {
   return (
     <div className="flex items-center gap-3">
       <Link href="/login">
-        <Button className="bg-transparent hover:bg-[hsl(var(--bg-elevated))] text-[hsl(var(--text-secondary))] hover:text-[hsl(var(--text-primary))] transition-all" size="sm" variant="ghost">
+        <Button className="bg-transparent hover:bg-surface-high text-on-surface-variant hover:text-on-surface transition-all" size="sm" variant="ghost">
           Log In
         </Button>
       </Link>

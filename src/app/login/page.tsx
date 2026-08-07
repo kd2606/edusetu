@@ -47,17 +47,17 @@ export default function LoginPage() {
 
   return (
     <div className="min-h-screen flex items-center justify-center px-4">
-      <Card className="w-full max-w-md p-8 sm:p-12 rounded-3xl bg-[hsl(var(--bg-glass)/0.6)] backdrop-blur-2xl border border-[hsl(var(--stroke-default))] shadow-card">
+      <Card className="w-full max-w-md p-8 sm:p-12 rounded-3xl bg-surface border border-outline-variant shadow-e1">
         <CardHeader className="p-0 text-center">
-          <CardTitle className="text-2xl font-semibold tracking-tight text-[hsl(var(--text-primary))] text-center mb-2">Welcome back</CardTitle>
-          <CardDescription className="text-sm text-[hsl(var(--text-secondary))] text-center mb-8">
+          <CardTitle className="text-2xl font-semibold tracking-tight text-on-surface text-center mb-2">Welcome back</CardTitle>
+          <CardDescription className="text-sm text-on-surface-variant text-center mb-8">
             Sign in to your account or create a new one
           </CardDescription>
         </CardHeader>
         <CardContent className="p-0">
           <form id="auth-form" className="space-y-6">
             <div className="space-y-2">
-              <Label htmlFor="email" className="text-sm font-medium text-[hsl(var(--text-secondary))]">Email</Label>
+              <Label htmlFor="email" className="text-sm font-medium text-on-surface-variant">Email</Label>
               <Input
                 id="email"
                 name="email"
@@ -67,7 +67,7 @@ export default function LoginPage() {
               />
             </div>
             <div className="space-y-2">
-              <Label htmlFor="password" className="text-sm font-medium text-[hsl(var(--text-secondary))]">Password</Label>
+              <Label htmlFor="password" className="text-sm font-medium text-on-surface-variant">Password</Label>
               <Input
                 id="password"
                 name="password"
@@ -77,7 +77,7 @@ export default function LoginPage() {
             </div>
 
             {error && (
-              <div className="flex items-center gap-2 text-sm text-[hsl(var(--danger))] bg-[hsl(var(--danger)/0.1)] p-3 rounded-md">
+              <div className="flex items-center gap-2 text-sm text-error bg-error-container p-3 rounded-md">
                 <AlertCircle className="w-4 h-4" />
                 <p>{error}</p>
               </div>
@@ -95,7 +95,7 @@ export default function LoginPage() {
               </Button>
               <Button
                 type="submit"
-                className="w-full h-12 bg-transparent border border-[hsl(var(--stroke-default))] text-[hsl(var(--text-primary))] rounded-xl hover:bg-[hsl(var(--bg-elevated))] transition-all flex items-center justify-center gap-2"
+                className="w-full h-12 bg-transparent border border-outline text-on-surface rounded-xl hover:bg-surface-high transition-all flex items-center justify-center gap-2"
                 disabled={isLoading}
                 onClick={(e) => handleSubmit(e as unknown as React.FormEvent<HTMLFormElement>, signup)}
               >
@@ -106,16 +106,16 @@ export default function LoginPage() {
 
           <div className="relative my-8">
             <div className="absolute inset-0 flex items-center">
-              <span className="w-full border-t border-[hsl(var(--stroke-default))]" />
+              <span className="w-full border-t border-outline" />
             </div>
             <div className="relative flex justify-center text-xs uppercase tracking-widest">
-              <span className="bg-background px-3 text-[hsl(var(--text-muted))]">Or continue with</span>
+              <span className="bg-background px-3 text-on-surface-muted">Or continue with</span>
             </div>
           </div>
 
           <Button
             type="button"
-            className="w-full h-12 bg-transparent border border-[hsl(var(--stroke-default))] text-[hsl(var(--text-primary))] rounded-xl hover:bg-[hsl(var(--bg-elevated))] transition-all flex items-center justify-center gap-2"
+            className="w-full h-12 bg-transparent border border-outline text-on-surface rounded-xl hover:bg-surface-high transition-all flex items-center justify-center gap-2"
             onClick={handleGoogleLogin}
             disabled={isLoading}
           >
