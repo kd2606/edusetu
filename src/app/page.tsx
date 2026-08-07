@@ -8,10 +8,8 @@ import type { RoadmapData } from '@/components/roadmap-canvas';
 import { motion } from 'framer-motion';
 import { Sheet, SheetContent, SheetHeader, SheetTitle } from '@/components/ui/sheet';
 import { ErrorBoundary } from '@/components/error-boundary';
-import { HorizonGlow } from '@/components/visuals/HorizonGlow';
-import { FloatingParticles } from '@/components/visuals/FloatingParticles';
 import { SpotlightCard } from '@/components/ui/spotlight-card';
-import { Sparkles } from 'lucide-react';
+import { Sparkles, ArrowRight } from 'lucide-react';
 
 export default function Home() {
   const [roadmapData, setRoadmapData] = useState<RoadmapData | null>(null);
@@ -65,23 +63,21 @@ export default function Home() {
 
       {!roadmapData ? (
         <div className="w-full flex flex-col items-center">
-          {/* Hero Section with HorizonGlow & Particles */}
-          <section className="w-full relative overflow-hidden group">
-            <FloatingParticles count={40} />
-            <HorizonGlow intensity="full" />
+          {/* Hero Section */}
+          <section className="w-full relative overflow-hidden bg-background">
+            {/* Subtle M3 Grid Pattern Background */}
+            <div className="absolute inset-0 pointer-events-none opacity-[0.03] dark:opacity-[0.05]" style={{ backgroundImage: 'radial-gradient(var(--color-on-surface) 1px, transparent 0)', backgroundSize: '24px 24px' }} />
             
-            <div className="relative z-10 w-full max-w-3xl mx-auto px-6 py-20 md:py-32 flex flex-col items-center text-center">
+            <div className="relative z-10 w-full max-w-4xl mx-auto px-6 py-20 md:py-32 flex flex-col items-center text-center">
               {/* Pill badge */}
               <motion.div
                 initial={{ opacity: 0, y: 12 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.1 }}
-                className="relative h-8 px-3.5 rounded-full bg-surface-container border border-outline shadow-e1 flex items-center gap-2 mb-8 overflow-hidden"
+                className="relative h-8 px-4 rounded-full bg-surface-container border border-outline-variant flex items-center gap-2 mb-8"
               >
-                <Sparkles className="w-3.5 h-3.5 text-accent-bright" />
-                <span className="text-xs text-on-surface-variant">AI-Powered Learning Paths</span>
-                {/* Shimmer sweep */}
-                <div className="absolute inset-0 motion-safe:animate-shimmer" style={{ background: 'linear-gradient(90deg, transparent 0%, color-mix(in srgb, var(--color-primary-container) 8%, transparent) 50%, transparent 100%)' }} />
+                <Sparkles className="w-3.5 h-3.5 text-primary" />
+                <span className="text-xs font-medium text-on-surface-variant">AI-Powered Learning Paths</span>
               </motion.div>
 
               {/* H1 — Display type */}
@@ -89,10 +85,9 @@ export default function Home() {
                 initial={{ opacity: 0, y: 16 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.2 }}
-                className="text-5xl md:text-7xl font-bold tracking-tighter leading-[1.1] mb-6 max-w-4xl mx-auto"
+                className="text-5xl md:text-7xl font-bold tracking-tighter leading-[1.1] mb-6 max-w-4xl mx-auto text-on-surface"
               >
-                <span className="text-grad-display">EduSetu.</span>{' '}
-                <span className="text-grad-accent">Every goal deserves a clear path.</span>
+                EduSetu. <span className="text-primary">Every goal deserves a clear path.</span>
               </motion.h1>
 
               {/* Subhead */}
@@ -100,7 +95,7 @@ export default function Home() {
                 initial={{ opacity: 0, y: 12 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.3 }}
-                className="text-base md:text-lg text-on-surface-variant max-w-2xl mx-auto leading-relaxed mb-12 text-balance"
+                className="text-base md:text-lg text-on-surface-variant max-w-2xl mx-auto leading-relaxed mb-16 text-balance"
               >
                 Where do you want to learn next? Whether you&apos;re navigating a school syllabus, cracking a competitive exam, or mastering a new skill, we dynamically map the exact steps to get you there.
               </motion.p>
@@ -110,12 +105,10 @@ export default function Home() {
                 initial={{ opacity: 0, y: 16 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.4 }}
-                className="w-full relative group/form"
+                className="w-full relative"
               >
-                {/* Expanding focus glow behind the form */}
-                <div className="absolute -inset-1 bg-primary-container blur-2xl opacity-0 group-focus-within/form:opacity-20 transition-opacity duration-500 rounded-full pointer-events-none" />
                 <GeneratorForm onGenerate={handleGenerate} isLoading={isLoading} />
-                {error && <p className="text-semantic-danger mt-4 text-center">{error}</p>}
+                {error && <p className="text-error mt-4 text-center text-sm font-medium">{error}</p>}
               </motion.div>
             </div>
           </section>
@@ -153,10 +146,10 @@ export default function Home() {
                     href="https://krrish-portfolio-six.vercel.app/"
                     target="_blank"
                     rel="noreferrer"
-                    className="flex items-center gap-2 rounded-full h-11 px-6 font-medium text-white transition-all duration-150 hover:-translate-y-px hover:shadow-glow-md active:scale-[0.98] shadow-[0_1px_0_0_hsl(0_0%_100%/0.25)_inset] shadow-glow-sm"
-                    style={{ background: 'var(--grad-btn)' }}
+                    className="flex items-center gap-2 rounded-full h-11 px-6 font-medium text-on-primary bg-primary hover:bg-primary-hover shadow-e1 transition-all duration-150"
                   >
                     Creator Portfolio
+                    <ArrowRight className="w-4 h-4" />
                   </a>
                   <a
                     href="mailto:dewangankrrish50@gmail.com"
@@ -171,13 +164,10 @@ export default function Home() {
         </div>
       ) : (
         <div className="w-full h-[calc(100svh-var(--header-h))] relative overflow-hidden">
-          <HorizonGlow intensity="subtle" />
           <motion.button 
             whileTap={{ scale: 0.98 }}
-            whileHover={{ y: -1 }}
             onClick={() => setRoadmapData(null)}
-            className="absolute bottom-6 left-1/2 -translate-x-1/2 z-50 rounded-full h-11 px-6 font-medium text-white shadow-[0_1px_0_0_hsl(0_0%_100%/0.25)_inset] shadow-glow-sm hover:shadow-glow-md transition-all duration-150 tracking-[-0.01em]"
-            style={{ background: 'var(--grad-btn)' }}
+            className="absolute bottom-6 left-1/2 -translate-x-1/2 z-50 rounded-full h-11 px-6 font-medium text-on-primary bg-primary hover:bg-primary-hover shadow-e2 transition-all duration-150 tracking-[-0.01em]"
           >
             Start New Roadmap
           </motion.button>

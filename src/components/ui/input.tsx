@@ -10,7 +10,7 @@ function Input({ className, type, ...props }: React.ComponentProps<"input">) {
       data-slot="input"
       data-glass
       className={cn(
-        "w-full min-w-0 flex bg-surface-container border border-outline-variant text-on-surface placeholder:text-on-surface-muted px-4 py-3 h-12 rounded-[var(--radius-input)] focus:ring-1 focus:ring-primary focus:border-outline-variant transition-all disabled:opacity-50 disabled:cursor-not-allowed outline-none hover:bg-surface-high focus:bg-surface focus:shadow-e2",
+        "w-full min-w-0 flex bg-surface border border-outline-variant text-on-surface placeholder:text-on-surface-muted px-4 py-3 h-12 rounded-[var(--radius-input)] focus:ring-1 focus:ring-primary focus:border-outline-variant transition-all disabled:opacity-50 disabled:cursor-not-allowed outline-none hover:bg-surface-high focus:shadow-e2",
         className
       )}
       {...props}

@@ -130,8 +130,7 @@ export function GeneratorForm({ onGenerate, isLoading }: GeneratorFormProps) {
         <div className="pt-6">
           <motion.div whileTap={{ scale: 0.98 }} whileHover={{ y: -1 }}>
             <Button 
-              className="w-full h-12 text-base mt-4 rounded-full font-medium tracking-[-0.01em] shadow-e1 hover:shadow-e2 transition-all duration-150" 
-              style={{ background: 'var(--grad-btn)' }}
+              className="w-full h-12 text-base mt-4 rounded-full font-medium tracking-[-0.01em] shadow-e1 hover:shadow-e2 transition-all duration-150 text-on-primary bg-primary hover:bg-primary-hover" 
               size="lg" 
               disabled={!formData.domain || !formData.currentLevel || !formData.ultimateGoal || !formData.timeframe || isLoading}
               onClick={() => onGenerate(formData)}
