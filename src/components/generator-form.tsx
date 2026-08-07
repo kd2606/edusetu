@@ -55,21 +55,15 @@ export function GeneratorForm({ onGenerate, isLoading }: GeneratorFormProps) {
               animate={{ opacity: 1, y: 0 }}
               className="space-y-3"
             >
-              <Label htmlFor="domain" className="text-sm font-medium text-[hsl(var(--text-secondary))]">1. Select your Domain</Label>
-              <Select onValueChange={(val) => { updateForm('domain', val as string); if (step === 1) handleNext(); }} value={formData.domain}>
-                <SelectTrigger id="domain">
-                  <SelectValue placeholder="e.g. Tech Skill or Competitive Exam" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="10th Board (CBSE/ICSE/State)">10th Board (CBSE/ICSE/State)</SelectItem>
-                  <SelectItem value="12th Board (Science/Comm/Arts)">12th Board (Science/Comm/Arts)</SelectItem>
-                  <SelectItem value="JEE (Mains/Advanced)">JEE (Mains/Advanced)</SelectItem>
-                  <SelectItem value="NEET">NEET</SelectItem>
-                  <SelectItem value="UPSC / State PSC">UPSC / State PSC</SelectItem>
-                  <SelectItem value="Tech Skill / Coding">Tech Skill / Coding</SelectItem>
-                  <SelectItem value="Other">Other</SelectItem>
-                </SelectContent>
-              </Select>
+              <Label htmlFor="domain" className="text-sm font-medium text-[hsl(var(--text-secondary))]">1. Enter your Domain / Exam</Label>
+              <Input 
+                id="domain" 
+                placeholder="e.g. '12th Board CBSE Physics' or 'React Native Developer'" 
+                value={formData.domain}
+                onChange={(e) => updateForm('domain', e.target.value)}
+                onBlur={() => { if (formData.domain && step === 1) handleNext(); }}
+                onKeyDown={(e) => { if (e.key === 'Enter' && formData.domain && step === 1) handleNext(); }}
+              />
             </motion.div>
           )}
 
