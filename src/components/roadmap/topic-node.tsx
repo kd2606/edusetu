@@ -1,7 +1,7 @@
 "use client";
 
 import { memo } from "react";
-import { Handle, Position, type NodeProps } from "@xyflow/react";
+import { Handle, Position, type NodeProps, type Node } from "@xyflow/react";
 import { Check, Lock, Play, Clock3, Video, Sparkles, CircleDashed } from "lucide-react";
 
 export type NodeStatus = "locked" | "available" | "in-progress" | "completed";
@@ -56,7 +56,9 @@ const STATUS = {
   },
 } as const;
 
-function TopicNodeImpl({ id, data, selected }: NodeProps<{ data: TopicNodeData }> & { data: TopicNodeData }) {
+export type TopicNodeType = Node<TopicNodeData, "roadmapNode">;
+
+function TopicNodeImpl({ id, data, selected }: NodeProps<TopicNodeType>) {
   const statusKey = (data.status || 'available') as keyof typeof STATUS;
   const s = STATUS[statusKey] || STATUS['available'];
   const { Icon } = s;
