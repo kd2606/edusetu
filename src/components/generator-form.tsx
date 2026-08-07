@@ -1,7 +1,8 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { useSearchParams } from 'next/navigation';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -22,6 +23,7 @@ type GeneratorFormProps = {
 };
 
 export function GeneratorForm({ onGenerate, isLoading }: GeneratorFormProps) {
+  const searchParams = useSearchParams();
   const [step, setStep] = useState(1);
   const [formData, setFormData] = useState<FormData>({
     domain: '',
@@ -29,6 +31,14 @@ export function GeneratorForm({ onGenerate, isLoading }: GeneratorFormProps) {
     ultimateGoal: '',
     timeframe: '',
   });
+
+  useEffect(() => {
+    const domainParam = searchParams.get('domain');
+    if (domainParam && !formData.domain) {
+      setFormData(prev => ({ ...prev, domain: domainParam }));
+      setStep(2); // Auto advance to next step if domain is provided
+    }
+  }, [searchParams, formData.domain]);
 
   const updateForm = (field: keyof FormData, value: string) => {
     setFormData(prev => ({ ...prev, [field]: value }));
