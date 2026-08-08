@@ -48,10 +48,10 @@ export async function POST(req: Request) {
 
     const videos = (data.items || [])
       .filter((item: { id?: { videoId?: string } }) => item?.id?.videoId)
-      .map((item: { id: { videoId: string }, snippet: { title: string, thumbnails: { medium: { url: string } }, channelTitle: string } }) => ({
+      .map((item: { id: { videoId: string }, snippet: { title: string, thumbnails: { medium?: { url: string }, default?: { url: string } }, channelTitle: string } }) => ({
         videoId: item.id.videoId,
         title: item.snippet.title,
-        thumbnail: item.snippet.thumbnails.medium.url,
+        thumbnail: item.snippet.thumbnails?.medium?.url || item.snippet.thumbnails?.default?.url || '',
         channelTitle: item.snippet.channelTitle,
       }));
 

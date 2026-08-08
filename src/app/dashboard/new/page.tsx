@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, Suspense } from 'react';
 import { GeneratorForm } from '@/components/generator-form';
 import { RoadmapCanvas } from '@/components/roadmap-canvas';
 import type { RoadmapData } from '@/components/roadmap-canvas';
@@ -58,7 +58,9 @@ export default function NewRoadmapPage() {
         <h1 className="text-3xl font-bold tracking-tight text-on-surface">Create New Roadmap</h1>
         <p className="text-on-surface-variant mt-2">Let our AI build the perfect learning path for you.</p>
       </div>
-      <GeneratorForm onGenerate={handleGenerate} isLoading={isGenerating} />
+      <Suspense fallback={null}>
+        <GeneratorForm onGenerate={handleGenerate} isLoading={isGenerating} />
+      </Suspense>
       {error && <p className="text-error mt-4 text-sm font-medium text-center">{error}</p>}
     </div>
   );

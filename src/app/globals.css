@@ -69,6 +69,12 @@
     --ease-emphasized: cubic-bezier(0.05, 0.7, 0.1, 1);
     --ease-exit:       cubic-bezier(0.3, 0, 0.8, 0.15);
 
+    /* LAYOUT */
+    --header-h: 4rem;
+
+    /* GRADIENTS */
+    --grad-btn: linear-gradient(135deg, var(--color-primary), var(--color-primary-hover));
+
     color-scheme: light;
   }
 
@@ -127,6 +133,12 @@
     --color-canvas-dot:               #2A2C2E;
     --color-edge:                     #45484B;
     --color-edge-active:              #A8C7FA;
+
+    /* LAYOUT */
+    --header-h: 4rem;
+
+    /* GRADIENTS */
+    --grad-btn: linear-gradient(135deg, var(--color-primary), var(--color-primary-hover));
 
     color-scheme: dark;
   }

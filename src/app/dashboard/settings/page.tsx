@@ -31,7 +31,8 @@ export default function SettingsPage() {
       }
       setIsLoading(false);
     });
-  }, [supabase.auth]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const handleSaveProfile = async () => {
     setIsSaving(true);
