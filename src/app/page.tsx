@@ -48,7 +48,7 @@ export default function Home() {
             initial={{ opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.4 }}
-            className="flex flex-col sm:flex-row items-center gap-4"
+            className="flex flex-col sm:flex-row items-center gap-4 mb-24"
           >
             <Link 
               href="/dashboard"
@@ -58,20 +58,17 @@ export default function Home() {
               <ArrowRight className="w-4 h-4" />
             </Link>
           </motion.div>
-        </div>
-      </section>
 
-      {/* About Section */}
-      <section className="w-full bg-surface py-20 px-6 border-t border-outline-variant">
-        <div className="max-w-4xl mx-auto flex flex-col items-center text-center">
-          <motion.h2 
-            initial={{ opacity: 0, y: 16 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            className="text-3xl md:text-4xl font-bold text-on-surface mb-6"
-          >
-            About EduSetu
-          </motion.h2>
+          {/* About Section - Integrated into Hero */}
+          <div className="w-full max-w-4xl mx-auto flex flex-col items-center text-center mt-12 pt-12 border-t border-outline-variant/50">
+            <motion.h2 
+              initial={{ opacity: 0, y: 16 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              className="text-3xl md:text-4xl font-bold text-on-surface mb-6"
+            >
+              About EduSetu
+            </motion.h2>
           
           <motion.h3 
             initial={{ opacity: 0, y: 16 }}
