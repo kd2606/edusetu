@@ -60,44 +60,75 @@ export default function Home() {
           </motion.div>
 
           {/* About Section - Integrated into Hero */}
-          <div className="w-full max-w-4xl mx-auto flex flex-col items-center text-center mt-12 pt-12 border-t border-outline-variant/50">
-            <motion.h2 
-              initial={{ opacity: 0, y: 16 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              className="text-3xl md:text-4xl font-bold text-on-surface mb-6"
-            >
-              About EduSetu
-            </motion.h2>
-          
-          <motion.h3 
-            initial={{ opacity: 0, y: 16 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            className="text-xl md:text-2xl font-semibold text-primary mb-8"
-          >
-            Every Indian student deserves a clear path to their goals.
-          </motion.h3>
-
           <motion.div 
-            initial={{ opacity: 0, y: 16 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            className="space-y-6 text-base md:text-lg text-on-surface-variant leading-relaxed text-left max-w-3xl"
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, margin: "-100px" }}
+            variants={{
+              visible: { opacity: 1, transition: { staggerChildren: 0.15 } },
+              hidden: { opacity: 0 }
+            }}
+            className="w-full max-w-5xl mx-auto flex flex-col items-center mt-8 pt-8"
           >
-            <p>
-              EduSetu is an AI-powered learning roadmap generator built for India, by Indians. Whether you&apos;re preparing for CBSE Boards, JEE, NEET, UPSC, or building tech skills like React Native, EduSetu creates a <strong className="text-on-surface">personalized, day-by-day learning plan</strong> tailored to your goals.
-            </p>
-            <p>
-              EduSetu curates resources from <strong className="text-on-surface">trusted Indian textbooks and top educational creators</strong> aligned with NCERT, state boards, and competitive exam patterns. Our platform integrates <strong className="text-on-surface">free gamification</strong> (XP, streaks) to keep you motivated, and our <strong className="text-on-surface">&quot;I&apos;m Stuck&quot; AI Assistant</strong> breaks down complex concepts into bite-sized analogies—right inside your roadmap, no switching apps needed.
-            </p>
-            <div className="bg-surface-container-low p-6 rounded-2xl border border-outline-variant mt-8">
-              <p className="font-semibold text-on-surface mb-2">Mission:</p>
-              <p>Bridge the gap between ambition and achievement for 200M+ Indian learners.</p>
+            <motion.div variants={{ hidden: { opacity: 0, y: 20 }, visible: { opacity: 1, y: 0 } }} className="text-center mb-12">
+              <h2 className="text-3xl md:text-5xl font-bold text-on-surface mb-4 tracking-tight">
+                About EduSetu
+              </h2>
+              <h3 className="text-lg md:text-xl font-medium text-primary">
+                Every Indian student deserves a clear path to their goals.
+              </h3>
+            </motion.div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 w-full text-left mb-8">
+              <motion.div 
+                variants={{ hidden: { opacity: 0, y: 20 }, visible: { opacity: 1, y: 0 } }}
+                whileHover={{ y: -5, transition: { duration: 0.2 } }}
+                className="bg-surface-container-lowest border border-outline-variant/50 p-8 rounded-3xl shadow-sm"
+              >
+                <div className="w-12 h-12 rounded-2xl bg-primary/10 flex items-center justify-center mb-6">
+                  <Sparkles className="w-6 h-6 text-primary" />
+                </div>
+                <h4 className="text-xl font-bold text-on-surface mb-3">Built for India</h4>
+                <p className="text-on-surface-variant leading-relaxed">
+                  EduSetu is an AI-powered learning roadmap generator built for India, by Indians. Whether you&apos;re preparing for CBSE Boards, JEE, NEET, UPSC, or building tech skills like React Native, EduSetu creates a <strong className="text-on-surface font-semibold">personalized, day-by-day learning plan</strong> tailored to your goals.
+                </p>
+              </motion.div>
+
+              <motion.div 
+                variants={{ hidden: { opacity: 0, y: 20 }, visible: { opacity: 1, y: 0 } }}
+                whileHover={{ y: -5, transition: { duration: 0.2 } }}
+                className="bg-surface-container-lowest border border-outline-variant/50 p-8 rounded-3xl shadow-sm"
+              >
+                <div className="w-12 h-12 rounded-2xl bg-primary/10 flex items-center justify-center mb-6">
+                  <Sparkles className="w-6 h-6 text-primary" />
+                </div>
+                <h4 className="text-xl font-bold text-on-surface mb-3">Curated Resources</h4>
+                <p className="text-on-surface-variant leading-relaxed">
+                  EduSetu curates resources from <strong className="text-on-surface font-semibold">trusted Indian textbooks and top educational creators</strong> aligned with NCERT, state boards, and competitive exam patterns. Our platform integrates <strong className="text-on-surface font-semibold">free gamification</strong> (XP, streaks) to keep you motivated.
+                </p>
+              </motion.div>
             </div>
-            <p className="text-sm text-on-surface-variant/70 italic mt-8 text-center">
+
+            <motion.div 
+              variants={{ hidden: { opacity: 0, y: 20 }, visible: { opacity: 1, y: 0 } }}
+              whileHover={{ scale: 1.02, transition: { duration: 0.2 } }}
+              className="w-full bg-gradient-to-br from-primary/10 to-transparent border border-primary/20 p-8 rounded-3xl shadow-sm text-center mb-12 relative overflow-hidden"
+            >
+              <div className="absolute top-0 right-0 p-8 opacity-10 pointer-events-none">
+                <Sparkles className="w-24 h-24 text-primary" />
+              </div>
+              <h4 className="text-xl font-bold text-on-surface mb-3 relative z-10">Our Mission</h4>
+              <p className="text-lg text-on-surface-variant max-w-2xl mx-auto relative z-10">
+                Bridge the gap between ambition and achievement for <strong className="text-primary font-bold">200M+ Indian learners.</strong>
+              </p>
+            </motion.div>
+
+            <motion.p 
+              variants={{ hidden: { opacity: 0 }, visible: { opacity: 1 } }}
+              className="text-xs text-on-surface-variant/50 italic text-center max-w-2xl"
+            >
               Disclaimer: EduSetu is not affiliated with any educational institute or brand. All trademarks belong to their respective owners.
-            </p>
+            </motion.p>
           </motion.div>
         </div>
       </section>
