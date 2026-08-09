@@ -60,6 +60,50 @@ export default function Home() {
           </motion.div>
         </div>
       </section>
+
+      {/* About Section */}
+      <section className="w-full bg-surface py-20 px-6 border-t border-outline-variant">
+        <div className="max-w-4xl mx-auto flex flex-col items-center text-center">
+          <motion.h2 
+            initial={{ opacity: 0, y: 16 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="text-3xl md:text-4xl font-bold text-on-surface mb-6"
+          >
+            About EduSetu
+          </motion.h2>
+          
+          <motion.h3 
+            initial={{ opacity: 0, y: 16 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="text-xl md:text-2xl font-semibold text-primary mb-8"
+          >
+            Every Indian student deserves a clear path to their goals.
+          </motion.h3>
+
+          <motion.div 
+            initial={{ opacity: 0, y: 16 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="space-y-6 text-base md:text-lg text-on-surface-variant leading-relaxed text-left max-w-3xl"
+          >
+            <p>
+              EduSetu is an AI-powered learning roadmap generator built for India, by Indians. Whether you&apos;re preparing for CBSE Boards, JEE, NEET, UPSC, or building tech skills like React Native, EduSetu creates a <strong className="text-on-surface">personalized, day-by-day learning plan</strong> tailored to your goals.
+            </p>
+            <p>
+              EduSetu curates resources from <strong className="text-on-surface">trusted Indian textbooks and top educational creators</strong> aligned with NCERT, state boards, and competitive exam patterns. Our platform integrates <strong className="text-on-surface">free gamification</strong> (XP, streaks) to keep you motivated, and our <strong className="text-on-surface">&quot;I&apos;m Stuck&quot; AI Assistant</strong> breaks down complex concepts into bite-sized analogies—right inside your roadmap, no switching apps needed.
+            </p>
+            <div className="bg-surface-container-low p-6 rounded-2xl border border-outline-variant mt-8">
+              <p className="font-semibold text-on-surface mb-2">Mission:</p>
+              <p>Bridge the gap between ambition and achievement for 200M+ Indian learners.</p>
+            </div>
+            <p className="text-sm text-on-surface-variant/70 italic mt-8 text-center">
+              Disclaimer: EduSetu is not affiliated with any educational institute or brand. All trademarks belong to their respective owners.
+            </p>
+          </motion.div>
+        </div>
+      </section>
     </div>
   );
 }
