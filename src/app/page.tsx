@@ -1,10 +1,28 @@
 'use client';
 
 import { motion } from 'framer-motion';
-import { Sparkles, ArrowRight } from 'lucide-react';
+import { Sparkles, ArrowRight, UserPlus } from 'lucide-react';
 import Link from 'next/link';
+import { useEffect, useState } from 'react';
+import { createClient } from '@/utils/supabase/client';
 
 export default function Home() {
+  const [session, setSession] = useState<any>(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const supabase = createClient();
+    supabase.auth.getSession().then(({ data: { session } }) => {
+      setSession(session);
+      setLoading(false);
+    });
+    
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
+      setSession(session);
+    });
+
+    return () => subscription.unsubscribe();
+  }, []);
   return (
     <div className="w-full flex flex-col items-center">
       {/* Hero Section */}
@@ -48,15 +66,35 @@ export default function Home() {
             initial={{ opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.4 }}
-            className="flex flex-col sm:flex-row items-center gap-4 mb-24"
+            className="flex flex-col sm:flex-row items-center gap-4 mb-24 min-h-[48px]"
           >
-            <Link 
-              href="/dashboard"
-              className="flex items-center justify-center gap-2 rounded-full h-12 px-8 font-semibold text-on-primary bg-primary hover:bg-primary-hover shadow-e2 transition-all duration-150"
-            >
-              Go to Dashboard
-              <ArrowRight className="w-4 h-4" />
-            </Link>
+            {loading ? (
+              <div className="h-12 w-48 animate-pulse bg-surface-container rounded-full" />
+            ) : session ? (
+              <Link 
+                href="/dashboard"
+                className="flex items-center justify-center gap-2 rounded-full h-12 px-8 font-semibold text-on-primary bg-primary hover:bg-primary-hover shadow-e2 transition-all duration-150"
+              >
+                Go to Dashboard
+                <ArrowRight className="w-4 h-4" />
+              </Link>
+            ) : (
+              <div className="flex flex-col sm:flex-row gap-4">
+                <Link 
+                  href="/login"
+                  className="flex items-center justify-center gap-2 rounded-full h-12 px-8 font-semibold text-primary bg-transparent border border-outline-variant hover:bg-surface-container transition-all duration-150"
+                >
+                  Log In
+                </Link>
+                <Link 
+                  href="/login"
+                  className="flex items-center justify-center gap-2 rounded-full h-12 px-8 font-semibold text-on-primary bg-primary hover:bg-primary-hover shadow-e2 transition-all duration-150"
+                >
+                  Sign Up
+                  <UserPlus className="w-4 h-4" />
+                </Link>
+              </div>
+            )}
           </motion.div>
 
           {/* About Section - Integrated into Hero */}
