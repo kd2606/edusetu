@@ -79,7 +79,7 @@ export default function Home() {
               </h3>
             </motion.div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 w-full text-left mb-8">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 w-full text-left mb-8">
               <motion.div 
                 variants={{ hidden: { opacity: 0, y: 20 }, visible: { opacity: 1, y: 0 } }}
                 whileHover={{ y: -5, transition: { duration: 0.2 } }}
@@ -104,7 +104,21 @@ export default function Home() {
                 </div>
                 <h4 className="text-xl font-bold text-on-surface mb-3">Curated Resources</h4>
                 <p className="text-on-surface-variant leading-relaxed">
-                  EduSetu curates resources from <strong className="text-on-surface font-semibold">trusted Indian textbooks and top educational creators</strong> aligned with NCERT, state boards, and competitive exam patterns. Our platform integrates <strong className="text-on-surface font-semibold">free gamification</strong> (XP, streaks) to keep you motivated.
+                  EduSetu curates resources from <strong className="text-on-surface font-semibold">trusted Indian textbooks and top educational creators</strong> aligned with NCERT, state boards, and competitive exam patterns.
+                </p>
+              </motion.div>
+
+              <motion.div 
+                variants={{ hidden: { opacity: 0, y: 20 }, visible: { opacity: 1, y: 0 } }}
+                whileHover={{ y: -5, transition: { duration: 0.2 } }}
+                className="bg-surface-container-lowest border border-outline-variant/50 p-8 rounded-3xl shadow-sm"
+              >
+                <div className="w-12 h-12 rounded-2xl bg-primary/10 flex items-center justify-center mb-6">
+                  <Sparkles className="w-6 h-6 text-primary" />
+                </div>
+                <h4 className="text-xl font-bold text-on-surface mb-3">Gamified & AI-Assisted</h4>
+                <p className="text-on-surface-variant leading-relaxed">
+                  Earn <strong className="text-on-surface font-semibold">XP & Streaks</strong> to stay consistent and beat procrastination. Stuck on a topic? Our <strong className="text-on-surface font-semibold">"Explain like I'm 5" AI Assistant</strong> breaks down complex concepts instantly.
                 </p>
               </motion.div>
             </div>
