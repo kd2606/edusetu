@@ -118,7 +118,7 @@ export default function Home() {
                 </div>
                 <h4 className="text-xl font-bold text-on-surface mb-3">Gamified & AI-Assisted</h4>
                 <p className="text-on-surface-variant leading-relaxed">
-                  Earn <strong className="text-on-surface font-semibold">XP & Streaks</strong> to stay consistent and beat procrastination. Stuck on a topic? Our <strong className="text-on-surface font-semibold">"Explain like I'm 5" AI Assistant</strong> breaks down complex concepts instantly.
+                  Earn <strong className="text-on-surface font-semibold">XP &amp; Streaks</strong> to stay consistent and beat procrastination. Stuck on a topic? Our <strong className="text-on-surface font-semibold">&quot;Explain like I&apos;m 5&quot; AI Assistant</strong> breaks down complex concepts instantly.
                 </p>
               </motion.div>
             </div>
