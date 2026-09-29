@@ -296,7 +296,9 @@ export function RoadmapCanvas({ data }: RoadmapCanvasProps) {
       if (data.id) {
         // We strip non-serializable functions before saving
         const serializableNodes = layoutedNds.map(n => {
-          const { onToggleComplete, onStuck, ...restData } = n.data as any;
+          const restData = { ...n.data } as Record<string, unknown>;
+          delete restData.onToggleComplete;
+          delete restData.onStuck;
           return { ...n, data: restData };
         });
         await updateRoadmapGraph(data.id, serializableNodes, layoutedEds);

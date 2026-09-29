@@ -161,7 +161,7 @@ export async function getCareerReadiness() {
     let totalBoss = 0;
 
     roadmaps.forEach(roadmap => {
-      const nodes = roadmap.nodes as any[];
+      const nodes = roadmap.nodes as Record<string, unknown>[];
       if (Array.isArray(nodes)) {
         nodes.forEach(node => {
           if (node.is_boss_node) {
