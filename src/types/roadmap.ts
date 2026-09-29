@@ -21,6 +21,13 @@ export type RoadmapNodeData = {
     videos: CachedYouTubeVideo[];
     fetched_at: string;
   };
+  is_boss_node?: boolean;
+  difficulty_level?: 'Beginner' | 'Intermediate' | 'Advanced';
+  proof_project?: {
+    title: string;
+    description: string;
+    github_required?: boolean;
+  };
 };
 
 export type RoadmapNodeType = Node<RoadmapNodeData, 'roadmapNode'>;
