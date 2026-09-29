@@ -1,6 +1,6 @@
 "use client";
 
-import { Search, Bell, Sun, Moon, Clock } from "lucide-react";
+import { Search, Bell, Sun, Moon, Clock, Target } from "lucide-react";
 import { useTheme } from "next-themes";
 import { useEffect, useState } from "react";
 
@@ -28,7 +28,7 @@ function RealTimeClock() {
   );
 }
 
-export function TopAppBar({ authButton }: { authButton?: React.ReactNode }) {
+export function TopAppBar({ authButton, readinessScore = 0 }: { authButton?: React.ReactNode, readinessScore?: number }) {
   const { theme, setTheme } = useTheme();
   const [mounted, setMounted] = useState(false);
 
@@ -38,7 +38,7 @@ export function TopAppBar({ authButton }: { authButton?: React.ReactNode }) {
     <header className="sticky top-0 z-30 flex h-16 shrink-0 items-center gap-4 px-4 md:px-6
                        supports-[backdrop-filter]:bg-[var(--color-glass)]
                        supports-[backdrop-filter]:backdrop-blur-xl bg-background border-b border-outline-variant">
-      <div className="relative w-full max-w-[720px]">
+      <div className="relative w-full max-w-[720px] hidden md:block">
         <Search className="pointer-events-none absolute left-4 top-1/2 size-[18px]
                            -translate-y-1/2 text-on-surface-muted" strokeWidth={2} />
         <input
@@ -53,7 +53,24 @@ export function TopAppBar({ authButton }: { authButton?: React.ReactNode }) {
         />
       </div>
 
-      <div className="ml-auto flex items-center gap-2">
+      <div className="ml-auto flex items-center gap-3">
+        {/* Career Readiness Tracker */}
+        <div className="hidden sm:flex items-center gap-3 px-4 py-1.5 rounded-full bg-surface-container border border-outline-variant shadow-sm h-10">
+          <div className="flex items-center gap-2">
+            <Target className="w-4 h-4 text-primary" />
+            <span className="text-on-surface font-semibold text-sm">Career Readiness</span>
+          </div>
+          <div className="flex items-center gap-2 w-32">
+            <div className="flex-1 h-2 bg-surface-highest rounded-full overflow-hidden">
+              <div 
+                className="h-full bg-primary transition-all duration-500 ease-out" 
+                style={{ width: `${readinessScore}%` }} 
+              />
+            </div>
+            <span className="text-xs font-bold text-on-surface-variant w-8">{readinessScore}%</span>
+          </div>
+        </div>
+
         {mounted && <RealTimeClock />}
 
         {mounted && (

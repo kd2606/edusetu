@@ -2,7 +2,7 @@
 
 import { memo } from "react";
 import { Handle, Position, type NodeProps, type Node } from "@xyflow/react";
-import { Check, Lock, Play, Clock3, Video, Sparkles, CircleDashed } from "lucide-react";
+import { Check, Lock, Play, Clock3, Video, Sparkles, CircleDashed, Loader2, BadgeCheck } from "lucide-react";
 
 export type NodeStatus = "locked" | "available" | "in-progress" | "completed";
 
@@ -15,6 +15,7 @@ export type TopicNodeData = {
   progress?: number;
   isMilestone?: boolean;
   onStuck?: (id: string) => void;
+  isBreakingDown?: boolean;
 };
 
 const STATUS = {
@@ -93,7 +94,10 @@ function TopicNodeImpl({ id, data, selected }: NodeProps<TopicNodeType>) {
         </div>
 
         <div className="min-w-0 flex-1">
-          <p className="text-label-sm truncate text-on-surface-muted">{data.module || "Topic"}</p>
+          <div className="flex items-center justify-between pr-2">
+            <p className="text-label-sm truncate text-on-surface-muted">{data.module || "Topic"}</p>
+            <BadgeCheck className="size-3.5 text-primary opacity-80" strokeWidth={2.5} />
+          </div>
           <h3 className={`text-title mt-1 leading-snug ${
             data.status === "completed"
               ? "text-on-surface-variant"
@@ -137,12 +141,17 @@ function TopicNodeImpl({ id, data, selected }: NodeProps<TopicNodeType>) {
             <div className="border-t border-outline-variant px-4 py-2 pl-5">
               <button
                 onClick={(e) => { e.stopPropagation(); data.onStuck?.(id); }}
+                disabled={data.isBreakingDown}
                 className="nodrag nopan text-label flex h-8 items-center gap-1.5 rounded-full
                            px-3 -ml-1 text-primary transition-colors duration-150
-                           hover:bg-primary/10 active:bg-primary/15"
+                           hover:bg-primary/10 active:bg-primary/15 disabled:opacity-50"
               >
-                <Sparkles className="size-4" strokeWidth={2.2} />
-                I&apos;m stuck — break this down
+                {data.isBreakingDown ? (
+                  <Loader2 className="size-4 animate-spin" strokeWidth={2.2} />
+                ) : (
+                  <Sparkles className="size-4" strokeWidth={2.2} />
+                )}
+                {data.isBreakingDown ? "Breaking down..." : "I'm stuck — break this down"}
               </button>
             </div>
           </div>

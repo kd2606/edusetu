@@ -18,7 +18,7 @@ import dagre from 'dagre';
 import { RoadmapNodeData, CachedYouTubeVideo } from '@/types/roadmap';
 import { TopicNode } from './roadmap/topic-node';
 import { NodeDetailsSheet } from './node-details-sheet';
-import { updateRoadmapNodes, grantNodeCompletionXP } from '@/app/actions';
+import { updateRoadmapNodes, updateRoadmapGraph, grantNodeCompletionXP } from '@/app/actions';
 import { toPng } from 'html-to-image';
 import { Download } from 'lucide-react';
 
@@ -137,7 +137,7 @@ export function RoadmapCanvas({ data }: RoadmapCanvasProps) {
   );
 
   const [nodes, setNodes, onNodesChange] = useNodesState(layoutedNodes);
-  const [edges, , onEdgesChange] = useEdgesState(layoutedEdges);
+  const [edges, setEdges, onEdgesChange] = useEdgesState(layoutedEdges);
 
   const [selectedNode, setSelectedNode] = useState<RoadmapNodeData | null>(null);
   const [isSheetOpen, setIsSheetOpen] = useState(false);
@@ -192,6 +192,124 @@ export function RoadmapCanvas({ data }: RoadmapCanvasProps) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [data.id, setNodes]);
 
+  const nodesRef = useRef(nodes);
+  const edgesRef = useRef(edges);
+  useEffect(() => {
+    nodesRef.current = nodes;
+    edgesRef.current = edges;
+  }, [nodes, edges]);
+
+  const handleStuck = useCallback(async (nodeId: string) => {
+    setNodes(nds => nds.map(n => n.id === nodeId ? { ...n, data: { ...n.data, isBreakingDown: true } } : n));
+
+    try {
+      const currentNodes = nodesRef.current;
+      const currentEdges = edgesRef.current;
+
+      const clickedNode = currentNodes.find(n => n.id === nodeId);
+      if (!clickedNode) throw new Error("Node not found");
+
+      // 1. Call the real Gemini API
+      const res = await fetch('/api/breakdown', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          nodeTitle: clickedNode.data.title,
+          courseContext: data.title // Pass the roadmap title as context
+        })
+      });
+
+      if (!res.ok) {
+        throw new Error("Failed to breakdown node");
+      }
+
+      const breakdownData = await res.json();
+      if (!Array.isArray(breakdownData) || breakdownData.length === 0) {
+        throw new Error("Invalid breakdown data format");
+      }
+
+      // 2. Map API response to React Flow nodes
+      const newSubNodes = breakdownData.map((item, index) => ({
+        id: item.id || `${nodeId}-sub-${index}`,
+        type: 'roadmapNode' as const,
+        position: { x: 0, y: 0 },
+        data: {
+          id: item.id || `${nodeId}-sub-${index}`,
+          title: item.title,
+          module: clickedNode.data.module,
+          status: 'available',
+          estMinutes: Math.floor((Number(clickedNode.data.estMinutes) || 45) / breakdownData.length),
+          videoCount: 1,
+          label: item.title,
+          description: item.description,
+          difficulty_level: item.difficulty_level,
+          is_boss_node: item.is_boss_node || false,
+          category: clickedNode.data.category,
+          priority: clickedNode.data.priority,
+          time_allocation: '15 mins',
+          resources: [],
+          completed: false,
+          onToggleComplete: handleToggleCompleteLocal,
+          onStuck: handleStuck,
+          isBreakingDown: false,
+        }
+      }));
+
+      // 3. Rewire edges
+      const outgoingEdges = currentEdges.filter(e => e.source === nodeId);
+      
+      const newEdgesList = [];
+      // Edge from parent to first subnode
+      newEdgesList.push({ id: `e${nodeId}-${newSubNodes[0].id}`, source: nodeId, target: newSubNodes[0].id, animated: true });
+      
+      // Edges between subnodes
+      for (let i = 0; i < newSubNodes.length - 1; i++) {
+        newEdgesList.push({
+          id: `e${newSubNodes[i].id}-${newSubNodes[i+1].id}`,
+          source: newSubNodes[i].id,
+          target: newSubNodes[i+1].id,
+          animated: true
+        });
+      }
+
+      // Remap original outgoing edges from the last subnode
+      const lastSubNodeId = newSubNodes[newSubNodes.length - 1].id;
+      const remappedOutgoingEdges = outgoingEdges.map(e => ({
+        ...e,
+        id: `e${lastSubNodeId}-${e.target}`,
+        source: lastSubNodeId
+      }));
+
+      const filteredEdges = currentEdges.filter(e => e.source !== nodeId);
+      const finalEdges = [...filteredEdges, ...newEdgesList, ...remappedOutgoingEdges];
+
+      const updatedNodes = currentNodes.map(n => n.id === nodeId ? { ...n, data: { ...n.data, isBreakingDown: false } } : n);
+      const finalNodes = [...updatedNodes, ...newSubNodes];
+
+      // 4. Run Dagre Layout
+      const { nodes: layoutedNds, edges: layoutedEds } = getLayoutedElements(finalNodes, finalEdges);
+
+      setNodes(layoutedNds);
+      setEdges(layoutedEds);
+
+      // 5. Persist to Supabase
+      if (data.id) {
+        // We strip non-serializable functions before saving
+        const serializableNodes = layoutedNds.map(n => {
+          const { onToggleComplete, onStuck, ...restData } = n.data as any;
+          return { ...n, data: restData };
+        });
+        await updateRoadmapGraph(data.id, serializableNodes, layoutedEds);
+      }
+
+    } catch (err) {
+      console.error(err);
+      // Revert the loading state on error
+      setNodes(nds => nds.map(n => n.id === nodeId ? { ...n, data: { ...n.data, isBreakingDown: false } } : n));
+    }
+  }, [setNodes, setEdges, handleToggleCompleteLocal, data.title, data.id]);
+
+
   // Update initial nodes if we want them to use the local setter, but it's easier to just patch them
   // Actually, let's just let the useMemo recreate them or we can hook the onNodeClick.
   // Wait, if initialNodes are recreated, it wipes positions unless we are careful.
@@ -199,8 +317,9 @@ export function RoadmapCanvas({ data }: RoadmapCanvasProps) {
   useMemo(() => {
     layoutedNodes.forEach(n => {
       n.data.onToggleComplete = handleToggleCompleteLocal;
+      n.data.onStuck = handleStuck;
     });
-  }, [layoutedNodes, handleToggleCompleteLocal]);
+  }, [layoutedNodes, handleToggleCompleteLocal, handleStuck]);
 
   const onNodeClick = useCallback((event: React.MouseEvent, node: Node) => {
     setSelectedNode(node.data as unknown as RoadmapNodeData);

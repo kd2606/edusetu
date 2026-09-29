@@ -28,6 +28,32 @@ export async function updateRoadmapNodes(roadmapId: string, nodes: Record<string
   }
 }
 
+export async function updateRoadmapGraph(roadmapId: string, nodes: Record<string, unknown>[], edges: Record<string, unknown>[]) {
+  try {
+    const supabase = await createClient();
+    const { data: { user } } = await supabase.auth.getUser();
+
+    if (!user) {
+      throw new Error('Unauthorized');
+    }
+
+    const { error } = await supabase
+      .from('roadmaps')
+      .update({ nodes, edges })
+      .eq('id', roadmapId)
+      .eq('user_id', user.id);
+
+    if (error) {
+      throw error;
+    }
+
+    return { success: true };
+  } catch (err) {
+    console.error('Failed to update roadmap graph:', err);
+    return { success: false, error: 'Failed to update graph' };
+  }
+}
+
 export async function grantNodeCompletionXP() {
   try {
     const supabase = await createClient();
@@ -113,5 +139,51 @@ export async function getProfile() {
   } catch (err) {
     console.error('Failed to get profile:', err);
     return null;
+  }
+}
+
+export async function getCareerReadiness() {
+  try {
+    const supabase = await createClient();
+    const { data: { user } } = await supabase.auth.getUser();
+    if (!user) return 0;
+
+    const { data: roadmaps } = await supabase
+      .from('roadmaps')
+      .select('nodes')
+      .eq('user_id', user.id);
+
+    if (!roadmaps || roadmaps.length === 0) return 0;
+
+    let completedStandard = 0;
+    let completedBoss = 0;
+    let totalStandard = 0;
+    let totalBoss = 0;
+
+    roadmaps.forEach(roadmap => {
+      const nodes = roadmap.nodes as any[];
+      if (Array.isArray(nodes)) {
+        nodes.forEach(node => {
+          if (node.is_boss_node) {
+            totalBoss++;
+            if (node.completed) completedBoss++;
+          } else {
+            totalStandard++;
+            if (node.completed) completedStandard++;
+          }
+        });
+      }
+    });
+
+    const totalWeighted = (totalStandard * 1) + (totalBoss * 5);
+    if (totalWeighted === 0) return 0;
+
+    const completedWeighted = (completedStandard * 1) + (completedBoss * 5);
+    const score = Math.round((completedWeighted / totalWeighted) * 100);
+    
+    return score;
+  } catch (err) {
+    console.error('Failed to calculate readiness:', err);
+    return 0;
   }
 }

@@ -39,6 +39,13 @@ Schema:
       "category": "prerequisite" | "core" | "practice" | "project",
       "priority": "critical" | "high" | "medium",
       "time_allocation": "string",
+      "difficulty_level": "Beginner" | "Intermediate" | "Advanced",
+      "proof_project": {
+        "title": "string",
+        "description": "string",
+        "github_required": "boolean"
+      },
+      "is_boss_node": "boolean",
       "resources": [
         { "type": "string", "title": "string", "url": "string" }
       ]
